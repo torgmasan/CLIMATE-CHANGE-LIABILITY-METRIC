@@ -12,19 +12,97 @@
 
 \section*{Problem Description and Research Question}
 
-Change has been exponentially quick in the last century, and it certainly has not been kind to the climate of our world. Instead of guiding us away from the brink of destruction, many of our leaders have steered us right to the tipping point; it is very difficult for us now to return to the wildlife-rich and climate-healthy world that we had before. Our problem is that some very privileged people are allowed to take decisions that adversely affect the entire planet.
-\\ We have decided to research how various factors contribute to the individual impact of a nation on the worsening climate of the earth. We want to quantitatively find out how a country is responsible for climate change and discuss the need for immediate action by countries (especially those which are influencing climate change in a significantly larger proportion).
+Change has been exponentially quick in the last century, and it certainly has not been kind to the climate of our world.
+Instead of guiding us away from the brink of destruction, many of our leaders have steered us right to the tipping point;
+it is very difficult for us now to return to the wildlife-rich and climate-healthy world that we had before.
+Our problem is that some very privileged people are allowed to take decisions that adversely affect the entire planet.
+ We have decided to research how various factors contribute to the individual impact of a nation on the worsening climate of the earth. We want to quantitatively find out how a country is responsible for climate change and discuss the need for immediate action by countries (especially those which are influencing climate change in a significantly larger proportion).
 
 \section*{Dataset Description}
 
-1. CO2 emissions is a dataset of the csv format which provides information on the emissions of Carbon Dioxide per capita in metric tons based on each country from 1960 to 2014. This dataset has been sourced from data.world and was created by Eva Murray in 2019. For the purpose of the project, only data from 2014 has been used. \\
-2. Percentage of use of renewable energy is a dataset of the csv format which provides information on the percentage of  renewable energy used out of the total energy consumption per country from 1990 to 2015. The dataset has been sourced from the World Bank. For the purpose of this project, only data from 2015 has been used. \\
-3. Counties of the world/GDP per capita is a dataset of the csv format which provides basic information about each country like its GDP per capita in dollars, population, area and more from 1970 to 2017. The data has been compiled by the US government. For the purpose of this project, only data for GDP per capita in dollars has been used. \\
-4. CRI is a dataset of the csv format which provides information on categories like score, fatalities, losses in millions of dollars based on the effects of climate in each country in 2018. The source of the data set is GERMANWATCH. For the purpose of this assignment we will be only using the Climate Risk Index score. 
+\begin{enumerate}
+ \item [1.] CO2 emissions is a dataset of the csv format which provides information on the emissions of Carbon Dioxide per capita in metric tons based on each country from 1960 to 2014.
+ This dataset has been sourced from data.world and was created by Eva Murray in 2019.
+ For the purpose of the project, only data from 2014 has been used.
+ \item[2.] Percentage of use of renewable energy is a dataset of the csv format which provides information on the percentage of  renewable energy used out of the total energy consumption per country from 1990 to 2015.
+ The dataset has been sourced from the World Bank.
+ For the purpose of this project, only data from 2015 has been used.
+ \item[3.] Counties of the world/GDP per capita is a dataset of the csv format which provides basic information about each country like its GDP per capita in dollars, population, area and more from 1970 to 2017. The data has been compiled by the US government.
+ For the purpose of this project, only data for GDP per capita in dollars has been used.
+ \item[4.] CRI is a dataset of the csv format which provides information on categories like score, fatalities, losses in millions of dollars based on the effects of climate in each country in 2018.
+ The source of the data set is GERMANWATCH. For the purpose of this assignment we will be only using the Climate Risk Index score.
+\end{enumerate}
 
 \section*{Computational Plan}
 
-TODO
+The application's GUI framework is proposed to be built using the \texttt{PyQt} library.
+Being a python binding of the Qt GUI library, the application can therefore be cross-platform, and more friendly to code
+considering that it is up-to-date and well documented.
+Additional pluses include the Qt designer which enable more time to be shifted towards coding the functionality of the
+widgets rather than the design itself. \newline
+
+In brief, the application first takes in user input for constants that will act as weights for each factor obtained
+from the datasets.
+It takes in the target world budget as entered by user.
+Using the inputs, the application calculates the total budget that needs to be allotted to each country.
+The user can analyze the data country-wise by clicking on the specific country's flag on a grid-layout, or view a
+choropleth map of the budget percentage of gdp.\newline
+
+To deal with the presentation of a choropleth map, the \texttt{plotly.express}
+module is used.
+Choropleth maps can be built by supplying the \texttt{iso\_alpha} of the country as needed along with the corresponding
+data that needs to be reflected on the map. \newline
+
+The datasets would be first passed through a script that 'cleans' the raw data.
+The script maps the common names of countries and their data to their specific
+\texttt{iso\_alpha} from each raw dataset.
+In addition, it removes unwanted columns and provides the final dataset that would be used.
+This script enables the application to be easily updated by each years new data and is essential to plot the choropleth map.
+\newline
+
+Each factor out of the 4 results from the datasets to calculate the responsibilty of a nation to climate change must be
+dealt with in either of two ways.
+For the 3 that are positively correlated with climate change responsibility (Carbon Dioxide emissions,
+GDP per capita, Climate risk index)
+
+\[
+\frac{Country's \, data}{Total \, data}
+\]
+
+For renewable energy usage, that is negatively correlated with climate change responsibility, the formula used is,
+
+\[
+\frac{Total \, data - Country's \, data}{\displaystyle\sum_{i = Country \, data} Total \, data -  i }
+\]
+
+These two formulas enable each factor for each country to be fairly adjusted out of 100 points.
+Now, a weighted average of each factor with user input for the weight (as this is a subjective parameter) can be taken
+to calculate the responsibility of each state.
+Let $\alpha, \beta, \gamma, \delta$ be the constants of factors F1, F2, F3, F4 respectively.
+For each country,
+
+\[
+ Responsibility = \alpha F1 + \beta F2 + \gamma F3 + \delta F4
+\]
+
+For the final conversion into budget of each country,
+
+\[
+  Budget(A) = Responsibility(A) \cdot Total \_ Budget
+\]
+
+Note: The formulae are chosen such that the entirety would add up to the target budget.\newline
+
+The above data including all of the input dataset values can be viewed in the country-wise option.
+If the user desires to view the choropleth map, the final additional computation to GDP\% is required.
+
+\[
+  GDP \% = \frac{Budget(A)}{Total \, Budget} \cdot 100
+\]
+
+
+
+
 
 \section*{References}
 
