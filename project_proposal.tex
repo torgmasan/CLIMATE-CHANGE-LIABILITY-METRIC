@@ -53,11 +53,18 @@ hypothetical budget distributions in a systematic, unbiased manner.
  For the purpose of this project, only data from 2015 has been used.
  \item[3.] GDP per capita is a dataset of the csv format which provides basic information about each country such as GDP per capita in dollars, population, area and more from 1970 to 2017. The data has been compiled by the US government.
  For the purpose of this project, only data for GDP per capita in dollars has been used.
- \item[4.] CRI is a dataset of the csv format which provides information on categories such as score, fatalities, losses in millions of dollars based on the effects of climate in each country in 2018.
+ \item[4.] CRI is a dataset of the pdf format which provides information on categories such as score, fatalities, losses in millions of dollars based on the effects of climate in each country in 2018.
  The source of the data set is GERMANWATCH. For the purpose of this project, we will be only using the Climate Risk Index score.
 \end{enumerate}
 
-Note: \texttt{plotly.express.data.gapminder()} contains \texttt{iso\_alpha} dataset used as described in computational plan.
+Note: \texttt{plotly.express.data.gapminder()} contains \texttt{iso\_alpha} dataset used as described in computational plan. \newline
+
+Our final dataset will consist of the required columns from the raw datasets as mentioned above.
+It will be programmatically generated  with a script.\newline
+
+Note: \texttt{cri.pdf} is converted from $.pdf \rightarrow .txt \rightarrow .csv$
+beforehand manually.
+This is required since the final dataset generating script expects $.csv$ input parameters. \newline
 
 \section*{Computational Plan}
 
