@@ -72,8 +72,12 @@ from the datasets.
 It takes in the target world budget as entered by user.
 Using the inputs, the application calculates the total budget that needs to be allotted to each country.
 The user can analyze the data country-wise by clicking on the specific country's flag on a grid-layout, or view a
-choropleth map of the budget percentage of gdp.\newline
+choropleth map of the budget percentage of gdp. \newline
 
+Let C be the set of constants,
+\[
+Input \, Preconditions: Budget \geq \$1,000,000 \wedge \forall constant \in C , constant > 0 \wedge sum(C) = 1
+\]
 To deal with the presentation of a choropleth map, the \texttt{plotly.express}
 module is used.
 Choropleth maps can be built by supplying the \texttt{iso\_alpha} of the country as needed along with the corresponding
