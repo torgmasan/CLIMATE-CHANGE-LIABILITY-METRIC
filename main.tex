@@ -3,7 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[margin=0.75in]{geometry}
 
-\title{CSC110 Project Proposal: IT'S TIME TO KNOW}
+\title{CSC110 Project Proposal: CLIMATE CHANGE LIABILITY METRIC}
 \author{Sidharth Sachdev, Ansh Jain, Nikhil Sreekumar}
 \date{Friday, November 6, 2020}
 
@@ -13,23 +13,47 @@
 \section*{Problem Description and Research Question}
 
 Change has been exponentially quick in the last century, and it certainly has not been kind to the climate of our world.
-Instead of guiding us away from the brink of destruction, many of our leaders have steered us right to the tipping point;
-it is very difficult for us now to return to the wildlife-rich and climate-healthy world that we had before.
+Instead of guiding us away from the brink of destruction, many of our leaders have steered us right to the tipping point.
 Our problem is that some very privileged people are allowed to take decisions that adversely affect the entire planet.
- We have decided to research how various factors contribute to the individual impact of a nation on the worsening climate of the earth. We want to quantitatively find out how a country is responsible for climate change and discuss the need for immediate action by countries (especially those which are influencing climate change in a significantly larger proportion).
+ We have decided to research how various factors contribute to the individual impact of a nation on the worsening climate of the earth.
+We want to quantitatively find out how much each country is responsible for climate change.\newline
+
+Hence our research question is,\newline
+
+\textbf{Can a metric be found to calculate how much responsibility each country should take to combat climate change?} \newline
+
+The world runs on money, and any form of commitment on a global front towards must start off with
+a budget.
+This resulted in us choosing a monetary approach to answer the research question.
+However, the aim of the project is not realized through calculating this aforementioned budget, a role
+imposed upon the user, but is done so by producing a fair distribution
+of this budget amongst the nations of the world.\newline
+
+We intend to go about doing so by creating a desktop application that allows the user to gain this information in
+whichever way is more preferable: comparing nations in a choropleth map or analyzing each country separately.
+It is also imperative that the application has a clean and understandable User Interface, so that the user is aware
+of the expected input as well as the features that come with it.\newline
+
+The factors determine the splitting of the budget on the basis of the economic capability of the nation, the risk of disaster to the
+country by climate change, and the positive/negative effects of the countries actions on the climate.
+Again, the weight of each factor is the user's choice, allowing for an interactive application that can produce several
+hypothetical budget distributions in a systematic, unbiased manner.
+
+
+
 
 \section*{Dataset Description}
 
 \begin{enumerate}
- \item [1.] CO2 emissions is a dataset of the csv format which provides information on the emissions of Carbon Dioxide per capita in metric tons based on each country from 1960 to 2014.
+ \item [1.] $CO_2$ emissions is a dataset of the csv format which provides information on the emissions of Carbon Dioxide per capita in metric tons based on each country from 1960 to 2014.
  This dataset has been sourced from data.world and was created by Eva Murray in 2019.
  For the purpose of the project, only data from 2014 has been used.
- \item[2.] Percentage of use of renewable energy is a dataset of the csv format which provides information on the percentage of  renewable energy used out of the total energy consumption per country from 1990 to 2015.
+ \item[2.] Percentage use of renewable energy is a dataset of the csv format which provides information on the percentage of  renewable energy used out of the total energy consumption per country from 1990 to 2015.
  The dataset has been sourced from the World Bank.
  For the purpose of this project, only data from 2015 has been used.
- \item[3.] Counties of the world/GDP per capita is a dataset of the csv format which provides basic information about each country like its GDP per capita in dollars, population, area and more from 1970 to 2017. The data has been compiled by the US government.
+ \item[3.] Counties of the world/GDP per capita is a dataset of the csv format which provides basic information about each country such as GDP per capita in dollars, population, area and more from 1970 to 2017. The data has been compiled by the US government.
  For the purpose of this project, only data for GDP per capita in dollars has been used.
- \item[4.] CRI is a dataset of the csv format which provides information on categories like score, fatalities, losses in millions of dollars based on the effects of climate in each country in 2018.
+ \item[4.] CRI is a dataset of the csv format which provides information on categories such as score, fatalities, losses in millions of dollars based on the effects of climate in each country in 2018.
  The source of the data set is GERMANWATCH. For the purpose of this assignment we will be only using the Climate Risk Index score.
 \end{enumerate}
 
@@ -51,7 +75,8 @@ choropleth map of the budget percentage of gdp.\newline
 To deal with the presentation of a choropleth map, the \texttt{plotly.express}
 module is used.
 Choropleth maps can be built by supplying the \texttt{iso\_alpha} of the country as needed along with the corresponding
-data that needs to be reflected on the map. \newline
+data that needs to be reflected on the map.
+This data is entered in a dataframe data type, into the \texttt{choropleth} method.  \newline
 
 The datasets would be first passed through a script that 'cleans' the raw data.
 The script maps the common names of countries and their data to their specific
@@ -60,19 +85,21 @@ In addition, it removes unwanted columns and provides the final dataset that wou
 This script enables the application to be easily updated by each years new data and is essential to plot the choropleth map.
 \newline
 
-Each factor out of the 4 results from the datasets to calculate the responsibilty of a nation to climate change must be
+Each factor out of the 4 results from the datasets must be
 dealt with in either of two ways.
 For the 3 that are positively correlated with climate change responsibility (Carbon Dioxide emissions,
 GDP per capita, Climate risk index)
 
 \[
-\frac{Country's \, data}{Total \, data}
+\frac{Country's \, data}{Total \, data} \cdot 100
 \]
 
-For renewable energy usage, that is negatively correlated with climate change responsibility, the formula used is,
+For renewable energy usage that is negatively correlated with climate change responsibility, the
+inverse relationship needed to be brought out.
+To do so, the Country's data subtracted from the total data would suffice.
 
 \[
-\frac{Total \, data - Country's \, data}{\displaystyle\sum_{i = Country \, data} Total \, data -  i }
+\frac{Total \, data - Country's \, data}{\displaystyle\sum_{i \in Country \, data} Total \, data -  i } \cdot 100
 \]
 
 These two formulas enable each factor for each country to be fairly adjusted out of 100 points.
@@ -85,7 +112,7 @@ For each country,
  Responsibility = \alpha F1 + \beta F2 + \gamma F3 + \delta F4
 \]
 
-For the final conversion into budget of each country,
+For the conversion into budget of a country $A$,
 
 \[
   Budget(A) = Responsibility(A) \cdot Total \_ Budget
@@ -93,12 +120,14 @@ For the final conversion into budget of each country,
 
 Note: The formulae are chosen such that the entirety would add up to the target budget.\newline
 
-The above data including all of the input dataset values can be viewed in the country-wise option.
-If the user desires to view the choropleth map, the final additional computation to GDP\% is required.
+Finally, the  GDP\%  is calculated.
 
 \[
   GDP \% = \frac{Budget(A)}{Total \, Budget} \cdot 100
 \]
+
+The above data including all of the input dataset values can be viewed in the country-wise option.
+If the user desires to view the choropleth map, the final computation to GDP\% acts as the required metric.
 
 
 
