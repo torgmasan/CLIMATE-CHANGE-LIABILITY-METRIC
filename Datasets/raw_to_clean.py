@@ -1,26 +1,31 @@
 from typing import List
+import csv
 
 
-def remove_unwanted_columns(file_name: str, remove_columns: List[int]) -> None:
-    raw = open(file_name, 'r')
-    raw_lines = raw.readlines()
+def extract_wanted_column(file_name: str, first_column_name: str, second_column_name) -> List[List[str]]:
+    """Return two lists owhich contain the essential columns from the input csv files for further processing.
 
-    clean_lines = []
-    for raw_line in raw_lines:
-        temp_list = raw_line.split(',')
-        newline_adjusted = temp_list.pop(-1).split('\n')
-        temp_list.append(newline_adjusted[0])
-        temp_list.append('\n')
+    Precondition:
+        - filepath refers to a csv file with 2 or more columns
+        - first and second column strings are present in the csv header
+    """
+    each_row_req_1 = []
+    each_row_req_2 = []
 
-        for column in remove_columns:
-            temp_list.pop(column)
+    with open(file_name) as csvfile:
+        reader = csv.reader(csvfile)
+        header = next(reader)
 
-        while '' in temp_list:
-            temp_list.remove('')
+        req_i = req_j = 0
 
-        junc = ','
-        clean_lines.append(junc.join(temp_list))
+        for i in range(len(header)):
+            for j in range(len(header)):
+                if header[i] == first_column_name and header[j] == second_column_name:
+                    req_i = i
+                    req_j = j
 
-    clean = open(file_name, 'w')
-    clean.writelines(clean_lines)
-    clean.close()
+        for row in reader:
+            each_row_req_1.append(row[req_i])
+            each_row_req_2.append(row[req_j])
+
+    return [each_row_req_1, each_row_req_2]
