@@ -11,7 +11,6 @@ class Country:
     gdp_per_capita: float
     renewable_energy_percentage: float
     cri_rank: float
-    budget_allotted: float
 
 
 def extract_wanted_column(file_name: str, first_column_name: str, second_column_name) -> Dict[str, str]:
@@ -89,7 +88,7 @@ def create_dataset() -> Dict[str, Country]:
             climate_risk_index = float(climate_risk_index_data[iso_to_name(iso)])
 
             dataset_dict[iso] = Country(name, co2_emissions, gdp_per_capita, renewable_energy_percentage,
-                                        climate_risk_index, 0)
+                                        climate_risk_index)
 
         except KeyError:
             print('LOG: unavailable data for ' + COUNTRY_CODE_TABLE[iso])
