@@ -71,7 +71,7 @@ def create_dataset() -> Dict[str, Country]:
 
     co2_emissions_data = extract_wanted_column('./Raw Datasets/co2_emissions.csv',
                                                'Country Code', '2014', )
-    gdp_per_capita_data = extract_wanted_column('./Raw Datasets/gdp.csv',
+    gdp_per_capita_data = extract_wanted_column('Raw Datasets/gdp_per_capita.csv',
                                                 'Country Code', '2014', )
     renewable_energy_percentage_data = extract_wanted_column('./Raw Datasets/Renewable Energy.csv',
                                                              'Country Code', '2014', )
