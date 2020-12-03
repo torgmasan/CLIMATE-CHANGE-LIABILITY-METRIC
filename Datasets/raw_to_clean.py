@@ -95,7 +95,7 @@ def get_datasets(year: str) -> Dict[str, Dict[str, str]]:
     return data_dict
 
 
-def create_dataset(year: str) -> Dict[str, Country]:
+def map_iso_to_country(year: str) -> Dict[str, Country]:
     """Provides a dictionary mapping the ISO codes to the corresponding country
     dataclass. The dataclass provided has no budget of 0 when initialized.
 
