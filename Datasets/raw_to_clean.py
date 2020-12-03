@@ -1,19 +1,20 @@
 from typing import Dict
 import csv
 from dataclasses import dataclass
+import warnings
+import os
 
 
 @dataclass
 class Country:
     """Class for maintaining information about each country"""
     name: str
-    co2_emissions: float
-    gdp_per_capita: float
-    renewable_energy_percentage: float
-    cri_rank: float
+    gdp: float
+    factors: dict
 
 
-def extract_wanted_column(file_name: str, first_column_name: str, second_column_name) -> Dict[str, str]:
+def extract_wanted_column(file_name: str, dependant_column: str, indepenent_column='Country Code',
+                          back_up_independent_column='Country Name') -> Dict[str, str]:
     """Return two lists on which contain the essential columns from the input csv files for further processing.
 
     Precondition:
@@ -26,71 +27,100 @@ def extract_wanted_column(file_name: str, first_column_name: str, second_column_
         reader = csv.reader(csvfile)
         header = next(reader)
 
-        req_i = req_j = 0
+        req_i = req_j = back_up_req_i = -999
 
         for i in range(len(header)):
-            for j in range(len(header)):
-                if header[i] == first_column_name and header[j] == second_column_name:
-                    req_i = i
-                    req_j = j
+            if header[i] == indepenent_column:
+                req_i = i
+            elif header[i] == dependant_column:
+                req_j = i
+            elif header[i] == back_up_independent_column:
+                back_up_req_i = i
 
         for row in reader:
-            if row[req_j] != '':
-                mapping_of_relevant_columns[row[req_i]] = row[req_j]
+            if req_i != -999:
+                if row[req_j] != '':
+                    mapping_of_relevant_columns[row[req_i]] = row[req_j]
+                else:
+                    mapping_of_relevant_columns[row[req_i]] = -999
+
             else:
-                mapping_of_relevant_columns[row[req_i]] = -999
+                row[back_up_req_i] = name_to_iso(row[back_up_req_i])
+                if row[req_j] != '':
+                    mapping_of_relevant_columns[row[back_up_req_i]] = row[req_j]
+                else:
+                    mapping_of_relevant_columns[row[back_up_req_i]] = -999
+
+    if 'Not Found' in mapping_of_relevant_columns:
+        mapping_of_relevant_columns.pop('Not Found')
 
     return mapping_of_relevant_columns
 
 
-COUNTRY_CODE_TABLE = extract_wanted_column('./Raw Datasets/countries_codes_and_coordinates.csv',
-                                           'Alpha-3 code', 'Country', )
+COUNTRY_CODE_TABLE = extract_wanted_column('Raw Datasets/Constant Datasets/countries_codes_and_coordinates.csv',
+                                           'Alpha-3 code', indepenent_column='Country', back_up_independent_column='')
 
 
-def iso_to_name(iso_target: str) -> str:
-    """Converts the input iso to give to corresponding country name
+def name_to_iso(name_target: str) -> str:
+    """Converts the input country name to give to corresponding iso
 
     Precondition:
-        iso entered is valid
+        name entered is valid
     """
-    if iso_target in COUNTRY_CODE_TABLE:
-        return COUNTRY_CODE_TABLE[iso_target]
+    if name_target in COUNTRY_CODE_TABLE:
+        return COUNTRY_CODE_TABLE[name_target]
     else:
         return 'Not Found'
 
 
-def create_dataset() -> Dict[str, Country]:
+def get_datasets(year: str) -> Dict[str, Dict[str, str]]:
+    """Creates a map from the datasets that determine the responsibility
+    of each country
+
+    Precondition:
+        - At least one csv file in the Constant Datasets directory
+        - All files are csv files with .csv extension
+        - All csv files have a column of either 'Country Name' or 'Country Code'
+        as well as a column of the input year
+    """
+    current_path = os.getcwd()
+    target_path = os.path.join(current_path, 'Raw Datasets/Responsibility Datasets/')
+    files = os.listdir(target_path)
+    data_dict = {}
+
+    for name in files:
+        data_dict[name[:-4]] = extract_wanted_column(os.path.join(target_path, name), year, 'Country Code',
+                                                     'Country Name')
+
+    return data_dict
+
+
+def create_dataset(year: str) -> Dict[str, Country]:
     """Provides a dictionary mapping the ISO codes to the corresponding country
     dataclass. The dataclass provided has no budget of 0 when initialized.
 
     Precondition:
-        All csv files contain valid information
+        - All csv files have a column of either 'Country Name' or 'Country Code'
+        as well as a column of the input year
     """
 
-    dataset_dict = {}
+    code_to_country = {}
+    responsibility_datasets = get_datasets(year)
 
-    co2_emissions_data = extract_wanted_column('./Raw Datasets/co2_emissions.csv',
-                                               'Country Code', '2014', )
-    gdp_per_capita_data = extract_wanted_column('Raw Datasets/gdp_per_capita.csv',
-                                                'Country Code', '2014', )
-    renewable_energy_percentage_data = extract_wanted_column('./Raw Datasets/Renewable Energy.csv',
-                                                             'Country Code', '2014', )
+    country_gdp_table = extract_wanted_column('Raw Datasets/Constant Datasets/gdp_total.csv', year)
 
-    climate_risk_index_data = extract_wanted_column('./Raw Datasets/cri.csv', 'Country Name', 'Score')
-
-    for iso in COUNTRY_CODE_TABLE:
-        name = COUNTRY_CODE_TABLE[iso]
+    for country in COUNTRY_CODE_TABLE:
+        country_data_map = {}
+        country_iso = COUNTRY_CODE_TABLE[country]
 
         try:
-            co2_emissions = float(co2_emissions_data[iso])
-            gdp_per_capita = float(gdp_per_capita_data[iso])
-            renewable_energy_percentage = float(renewable_energy_percentage_data[iso])
-            climate_risk_index = float(climate_risk_index_data[iso_to_name(iso)])
+            for dataset in responsibility_datasets:
+                corresponding_data = responsibility_datasets[dataset]
+                country_data_map[dataset] = float(corresponding_data[country_iso])
 
-            dataset_dict[iso] = Country(name, co2_emissions, gdp_per_capita, renewable_energy_percentage,
-                                        climate_risk_index)
+            code_to_country[country_iso] = Country(country, float(country_gdp_table[country_iso]), country_data_map)
 
         except KeyError:
-            print('LOG: unavailable data for ' + COUNTRY_CODE_TABLE[iso])
+            warnings.warn('Unavailable data for ' + country, RuntimeWarning)
 
-    return dataset_dict
+    return code_to_country
