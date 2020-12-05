@@ -1,0 +1,7 @@
+# Climate Change Liability Metric: Python libraries used in this project.
+
+# Graphical User Interface
+PyQt5
+
+# Data Visusalization
+plotly
