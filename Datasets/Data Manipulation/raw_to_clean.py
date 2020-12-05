@@ -57,7 +57,7 @@ def extract_wanted_column(file_name: str, dependant_column: str, indepenent_colu
     return mapping_of_relevant_columns
 
 
-COUNTRY_CODE_TABLE = extract_wanted_column('Raw Datasets/Constant Datasets/countries_codes_and_coordinates.csv',
+COUNTRY_CODE_TABLE = extract_wanted_column('../Raw Datasets/Constant Datasets/countries_codes_and_coordinates.csv',
                                            'Alpha-3 code', indepenent_column='Country', back_up_independent_column='')
 
 
@@ -84,7 +84,7 @@ def get_datasets(year: str) -> Dict[str, Dict[str, str]]:
         as well as a column of the input year
     """
     current_path = os.getcwd()
-    target_path = os.path.join(current_path, 'Raw Datasets/Responsibility Datasets/')
+    target_path = os.path.join(current_path, '../Raw Datasets/Responsibility Datasets/')
     files = os.listdir(target_path)
     data_dict = {}
 
@@ -107,7 +107,7 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
     code_to_country = {}
     responsibility_datasets = get_datasets(year)
 
-    country_gdp_table = extract_wanted_column('Raw Datasets/Constant Datasets/gdp_total.csv', year)
+    country_gdp_table = extract_wanted_column('../Raw Datasets/Constant Datasets/gdp_total.csv', year)
 
     for country in COUNTRY_CODE_TABLE:
         country_data_map = {}

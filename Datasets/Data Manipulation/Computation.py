@@ -1,6 +1,5 @@
 from Datasets.raw_to_clean import Country, get_datasets
-from typing import Dict, List, Set
-import math
+
 """ Computation code:
                 TODO LIST:
                     1. Create a dataclass with some instance variables that will be changed.
