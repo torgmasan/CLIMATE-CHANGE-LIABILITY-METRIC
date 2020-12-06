@@ -46,26 +46,42 @@ def negative_calculation(factor: str, year: str, country: Country) -> float:
     return calc
 
 
+def unavailable_value(country: Country, weights: Dict[str, float]) -> float:
+    """Calculates the split of the weights for responsibility based on the number of\
+    unavailable values"""
+    count_so_far = 0
+    split = 0.0
+    for factor in country.factors:
+        if country.factors[factor] == -999:
+            count_so_far += 1
+    for factor in country.factors:
+        if country.factors[factor] == -999:
+            split += weights[factor] / (len(weights) - count_so_far)
+            weights[factor] = 0
+    return split
+
+
 def responsibility(weights: Dict[str, float],
                    country: Country, year: str) -> float:
     """Calculates the responsibility of the given country.
 
     Preconditions:
-        - a + b + c + d = 1
-        - proportion == 'inverse' or relation == 'direct'
+        - sum([weights[factor] for factor in country.factors]) == 100.0
         - factor_proportionality.keys() == country.factors.keys()
     """
     weighted_result = 0.0
     score = {}
+    split = unavailable_value(country, weights)
     for factor in country.factors:
-        if factor_proportionality[factor] == 'direct':
-            result = positive_calculation(factor, year, country)
-            score[factor] = result
-        else:
-            result = negative_calculation(factor, year, country)
-            score[factor] = result
+        if country.factors[factor] != -999:
+            if factor_proportionality[factor] == 'direct':
+                result = positive_calculation(factor, year, country)
+                score[factor] = result
+            else:
+                result = negative_calculation(factor, year, country)
+                score[factor] = result
     for factor in country.factors:
-        weighted_result += score[factor] * weights[factor]
+        weighted_result += score[factor] * (weights[factor] + split)
     return weighted_result
 
 
