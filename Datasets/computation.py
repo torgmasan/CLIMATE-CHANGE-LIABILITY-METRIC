@@ -23,8 +23,10 @@ def calculate_total(factor: str, year: str) -> float:
     """Calculates the total of the factor passed"""
     total = 0.0
     data = get_datasets(year)
+
     for countries in data[factor]:
         total += data[countries]
+
     return total
 
 
@@ -33,6 +35,7 @@ def positive_calculation(factor: str, year: str, country: Country) -> float:
     total_data = calculate_total(factor, year)
     country_data = country.factors[factor]
     calc = country_data / total_data * 100
+
     return calc
 
 
@@ -43,6 +46,7 @@ def negative_calculation(factor: str, year: str, country: Country) -> float:
     sum_so_far = sum([total_data - float(get_datasets(year)[factor][i]) for i in
                       get_datasets(year)[factor]])
     calc = (total_data - country_data) / sum_so_far * 100
+
     return calc
 
 
@@ -51,13 +55,16 @@ def unavailable_value(country: Country, weights: Dict[str, float]) -> float:
     unavailable values"""
     count_so_far = 0
     split = 0.0
+
     for factor in country.factors:
         if country.factors[factor] == -999:
             count_so_far += 1
+
     for factor in country.factors:
         if country.factors[factor] == -999:
             split += weights[factor] / (len(weights) - count_so_far)
             weights[factor] = 0
+
     return split
 
 
@@ -72,6 +79,7 @@ def responsibility(weights: Dict[str, float],
     weighted_result = 0.0
     score = {}
     split = unavailable_value(country, weights)
+
     for factor in country.factors:
         if country.factors[factor] != -999:
             if factor_proportionality[factor] == 'direct':
@@ -80,8 +88,10 @@ def responsibility(weights: Dict[str, float],
             else:
                 result = negative_calculation(factor, year, country)
                 score[factor] = result
+
     for factor in country.factors:
         weighted_result += score[factor] * (weights[factor] + split)
+
     return weighted_result
 
 
