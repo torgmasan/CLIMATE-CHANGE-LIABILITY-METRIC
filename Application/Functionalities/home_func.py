@@ -9,7 +9,7 @@ app = QApplication(sys.argv)
 
 class HomeWindow(QMainWindow, Ui_MainWindow):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
         self.dataset_to_combo_box = {}
@@ -20,7 +20,7 @@ class HomeWindow(QMainWindow, Ui_MainWindow):
 
         self.begin_analysis.clicked.connect(self.open_constant_window)
 
-    def populate_grid(self):
+    def populate_grid(self) -> None:
         """Adds required Label and ComboBox items to
         obtain correlation for all csv files in Responsibility Datasets directory
 
