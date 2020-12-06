@@ -2,7 +2,7 @@ from typing import Dict, Optional, List
 import csv
 from dataclasses import dataclass
 from datetime import datetime
-from Path import GLOBAL_PROJECT_PATH
+from path import GLOBAL_PROJECT_PATH
 import warnings
 import os
 
