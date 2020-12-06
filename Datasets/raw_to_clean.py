@@ -1,6 +1,8 @@
-from typing import Dict
+from typing import Dict, Optional, List
 import csv
 from dataclasses import dataclass
+from datetime import datetime
+from Path import GLOBAL_PROJECT_PATH
 import warnings
 import os
 
@@ -57,7 +59,8 @@ def extract_wanted_column(file_name: str, dependant_column: str, indepenent_colu
     return mapping_of_relevant_columns
 
 
-COUNTRY_CODE_TABLE = extract_wanted_column('./Raw Datasets/Constant Datasets/countries_codes_and_coordinates.csv',
+COUNTRY_CODE_TABLE = extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
+                                                        'Datasets/Raw Datasets/Constant Datasets/countries_codes_and_coordinates.csv'),
                                            'Alpha-3 code', indepenent_column='Country', back_up_independent_column='')
 
 
@@ -65,7 +68,7 @@ def name_to_iso(name_target: str) -> str:
     """Converts the input country name to give to corresponding iso
 
     Precondition:
-        name entered is valid
+        - Name entered is valid
     """
     if name_target in COUNTRY_CODE_TABLE:
         return COUNTRY_CODE_TABLE[name_target]
@@ -73,7 +76,7 @@ def name_to_iso(name_target: str) -> str:
         return 'Not Found'
 
 
-def get_datasets(year: str) -> Dict[str, Dict[str, str]]:
+def get_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
     """Creates a map from the datasets that determine the responsibility
     of each country
 
@@ -83,14 +86,16 @@ def get_datasets(year: str) -> Dict[str, Dict[str, str]]:
         - All csv files have a column of either 'Country Name' or 'Country Code'
         as well as a column of the input year
     """
-    current_path = os.getcwd()
-    target_path = os.path.join(current_path, 'Raw Datasets/Responsibility Datasets/')
+    target_path = os.path.join(GLOBAL_PROJECT_PATH, 'Datasets/Raw Datasets/Responsibility Datasets/')
     files = os.listdir(target_path)
     data_dict = {}
 
-    for name in files:
-        data_dict[name[:-4]] = extract_wanted_column(os.path.join(target_path, name), year, 'Country Code',
-                                                     'Country Name')
+    try:
+        for name in files:
+            data_dict[name[:-4]] = extract_wanted_column(os.path.join(target_path, name), year, 'Country Code',
+                                                         'Country Name')
+    except IndexError:
+        return None
 
     return data_dict
 
@@ -107,7 +112,9 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
     code_to_country = {}
     responsibility_datasets = get_datasets(year)
 
-    country_gdp_table = extract_wanted_column('Raw Datasets/Constant Datasets/gdp_total.csv', year)
+    country_gdp_table = extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
+                                                           'Datasets/Raw Datasets/Constant Datasets/gdp_total.csv'),
+                                              year)
 
     for country in COUNTRY_CODE_TABLE:
         country_data_map = {}
@@ -124,3 +131,22 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
             warnings.warn('Unavailable data for ' + country, RuntimeWarning)
 
     return code_to_country
+
+
+def possible_years() -> List[str]:
+    """Provides a list of years for which data can be analyzed
+
+    Precondition:
+        - All data worth considering is from 1950 and onwards
+        - At least one year is common to analyze in all datasets
+    """
+    today = datetime.today()
+    current_year = today.year
+    possible_year_list = []
+
+    for year in range(1950, current_year + 1):
+        year_str = str(year)
+        if get_datasets(year_str) is not None:
+            possible_year_list.append(year_str)
+
+    return possible_year_list
