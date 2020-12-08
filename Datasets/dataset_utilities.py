@@ -17,7 +17,7 @@ class Country:
 
 def extract_wanted_column(file_name: str, dependant_column: str, indepenent_column='Country Code',
                           back_up_independent_column='Country Name') -> Dict[str, str]:
-    """Return two lists on which contain the essential columns from the input csv files for further processing.
+    """Return two lists which contain the essential columns from the input csv files for further processing.
 
     Precondition:
         - filepath refers to a csv file with 2 or more columns
@@ -125,7 +125,12 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
                 corresponding_data = responsibility_datasets[dataset]
                 country_data_map[dataset] = float(corresponding_data[country_iso])
 
-            code_to_country[country_iso] = Country(country, float(country_gdp_table[country_iso]), country_data_map)
+            no_information = all(country_data_map[dataset] == -999 for dataset in country_data_map)
+
+            if not no_information:
+                code_to_country[country_iso] = Country(country, float(country_gdp_table[country_iso]), country_data_map)
+            else:
+                warnings.warn('Unavailable data ' + country, RuntimeWarning)
 
         except KeyError:
             warnings.warn('Unavailable data for ' + country, RuntimeWarning)
