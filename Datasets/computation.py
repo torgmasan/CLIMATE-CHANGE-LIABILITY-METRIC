@@ -1,28 +1,11 @@
-from Datasets.dataset_utilities import Country, get_datasets
+from Datasets.dataset_utilities import Country, get_clean_datasets
 from typing import Dict
-""" Computation code:
-                TODO LIST:
-                    1. Create a dataclass with some instance variables that will be changed.
-                    4. Return a dictionary containing the gdp% as well as other factors
-                    5. -999 to be distributed to others
-                    6. a, b, c, d weights to be included as parameters
-                    7. Make the factor dictionary positive or negative.
-                    8. Take year as an input.
-"""
-factor_proportionality = {'Renewable Energy': 'inverse', 'co2_emissions': 'direct', 'cri': 'direct',
-                          'gdp_per_capita': 'direct'}
-
-
-def check_factor(factor: str, proportionality: str) -> None:
-    """Checks whether a factor is already in the factor_proportionality dict and adds if not"""
-    if factor not in factor_proportionality:
-        factor_proportionality[factor] = proportionality
 
 
 def _calculate_total(factor: str, year: str) -> float:
     """Calculates the total of the factor passed"""
     total = 0.0
-    data = get_datasets(year)
+    data = get_clean_datasets(year)
 
     for countries in data[factor]:
         total += data[countries]
@@ -43,8 +26,8 @@ def _negative_calculation(factor: str, year: str, country: Country) -> float:
     """Calculates the weighted responsibility if the relation is negative."""
     total_data = _calculate_total(factor, year)
     country_data = country.factors[factor]
-    sum_so_far = sum([total_data - float(get_datasets(year)[factor][i]) for i in
-                      get_datasets(year)[factor]])
+    sum_so_far = sum([total_data - float(get_clean_datasets(year)[factor][i]) for i in
+                      get_clean_datasets(year)[factor]])
     calc = (total_data - country_data) / sum_so_far * 100
 
     return calc

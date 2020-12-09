@@ -76,9 +76,8 @@ def name_to_iso(name_target: str) -> str:
         return 'Not Found'
 
 
-def get_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
-    """Creates a map from the datasets that determine the responsibility
-    of each country
+def get_raw_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
+    """Provide a raw version of the datasets used for computation
 
     Precondition:
         - At least one csv file in the Constant Datasets directory
@@ -136,6 +135,23 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
             warnings.warn('Unavailable data for ' + country, RuntimeWarning)
 
     return code_to_country
+
+
+def get_clean_datasets(year: str) -> Dict[str, Dict[str, str]]:
+    """Provide a final revised dataset for performing computations"""
+    raw_data_map = get_datasets(year)
+    clean_data_map = {}
+    mapped_iso_to_country = map_iso_to_country(year)
+
+    for data_key in raw_data_map:
+        each_data_map = {}
+        for country in raw_data_map[data_key]:
+            if country in mapped_iso_to_country:
+                each_data_map[country] = mapped_iso_to_country[country].factors[data_key]
+
+        clean_data_map[data_key] = each_data_map
+
+    return clean_data_map
 
 
 def possible_years() -> List[str]:

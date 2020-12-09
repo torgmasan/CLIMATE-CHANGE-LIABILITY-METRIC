@@ -7,7 +7,14 @@ from Datasets.dataset_utilities import possible_years, get_datasets
 app = QApplication(sys.argv)
 
 
-class HomeWindow(QMainWindow, Ui_MainWindow):
+class ApplicationWindow(QMainWindow):
+    """A class representing the framework of every
+    GUI Window that is created during the analysis"""
+
+    def
+
+
+class HomeWindow(ApplicationWindow, Ui_MainWindow):
 
     def __init__(self) -> None:
         super().__init__()
