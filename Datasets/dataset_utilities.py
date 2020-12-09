@@ -109,7 +109,7 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
     """
 
     code_to_country = {}
-    responsibility_datasets = get_datasets(year)
+    responsibility_datasets = get_raw_datasets(year)
 
     country_gdp_table = extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
                                                            'Datasets/Raw Datasets/Constant Datasets/gdp_total.csv'),
@@ -139,7 +139,7 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
 
 def get_clean_datasets(year: str) -> Dict[str, Dict[str, str]]:
     """Provide a final revised dataset for performing computations"""
-    raw_data_map = get_datasets(year)
+    raw_data_map = get_raw_datasets(year)
     clean_data_map = {}
     mapped_iso_to_country = map_iso_to_country(year)
 
@@ -167,7 +167,7 @@ def possible_years() -> List[str]:
 
     for year in range(1950, current_year + 1):
         year_str = str(year)
-        if get_datasets(year_str) is not None:
+        if get_raw_datasets(year_str) is not None:
             possible_year_list.append(year_str)
 
     return possible_year_list
