@@ -112,7 +112,7 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
     responsibility_datasets = get_raw_datasets(year)
 
     country_gdp_table = extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
-                                                           'Datasets/Raw Datasets/Constant Datasets/gdp_total.csv'),
+                                                           'Datasets/Raw Datasets/Constant Datasets/GDP.csv'),
                                               year)
 
     for country in COUNTRY_CODE_TABLE:

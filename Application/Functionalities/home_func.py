@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QComboBox
 from PyQt5 import QtCore
 from Application.Layouts.home_layout import Ui_MainWindow
-from Datasets.dataset_utilities import possible_years, get_datasets
+from Datasets.dataset_utilities import possible_years, get_raw_datasets
 
 app = QApplication(sys.argv)
 
@@ -11,10 +11,11 @@ class ApplicationWindow(QMainWindow):
     """A class representing the framework of every
     GUI Window that is created during the analysis"""
 
-    def
+    def hi(self):
+        pass
 
 
-class HomeWindow(ApplicationWindow, Ui_MainWindow):
+class HomeWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self) -> None:
         super().__init__()
@@ -35,7 +36,7 @@ class HomeWindow(ApplicationWindow, Ui_MainWindow):
             - At least one csv file in Raw Datasets
         """
         temp_combo_year = str(self.year_drop_down.currentText())
-        correlation_keys = list(get_datasets(temp_combo_year).keys())
+        correlation_keys = list(get_raw_datasets(temp_combo_year).keys())
         combo_box_items = ['direct', 'inverse']
 
         for i in range(len(correlation_keys)):
