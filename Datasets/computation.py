@@ -97,13 +97,3 @@ def budget_percentage(total_budget: float, country: Country,
     budget = responsibility(weights, country, factor_proportionality) * total_budget
     percentage = budget / country.gdp * 100
     return percentage
-
-
-def __test_country_responsibility__(country: Country):
-    set_up_computation('2014')
-    weights = {'GDP': 0.35, 'Climate Risk Index': 0.27, 'Renewable Energy': 0.16,
-               'Carbon Dioxide Emissions': 0.22}
-    factor_responsibility = {'GDP': 'direct', 'Climate Risk Index': 'direct', 'Renewable Energy': 'inverse',
-                             'Carbon Dioxide Emissions': 'direct'}
-
-    return responsibility(weights, country, factor_responsibility)
