@@ -1,7 +1,7 @@
 import sys
 from typing import Dict
 
-from PyQt5.QtWidgets import QApplication, QLabel, QComboBox
+from PyQt5.QtWidgets import QApplication, QLabel, QComboBox, QLineEdit
 from Application.Functionalities.cclm_application_window import CCLMApplicationWindow
 from PyQt5 import QtCore
 from Application.Layouts.home_user_input_layout import Ui_HomeMainWindow
@@ -64,14 +64,29 @@ class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
 
         self.dataset_to_correlation = dataset_to_correlation
 
+        self.dataset_to_line_edit = {}
+        self.dataset_to_weightage = {}
+
+        self.populate_grid()
+
     def populate_grid(self) -> None:
-        """Adds required Label and  QLineEdit items to
+        """Adds required Label and QLineEdit items to
         obtain weightage for all csv files in Responsibility Datasets directory
 
         Preconditions:
             - All user input is 0 <= input <= 100
             - All user input adds up to 100"""
-        pass
+        dataset_keys = list(self.dataset_to_correlation.keys())
+
+        for data_key in dataset_keys:
+            label = QLabel(data_key)
+            label.setAlignment(QtCore.Qt.AlignCenter)
+            self.dataset_to_line_edit[data_key] = QLineEdit()
+            current_edit = self.dataset_to_line_edit[data_key]
+            current_edit.setFixedWidth(100)
+            self.factor_form.addRow(label, current_edit)
+
+        self.factor_form.setSpacing(30)
 
     def country_list_win_open(self) -> None:
         """Close the WeightageWindow and open the CountryListWindow"""
