@@ -59,7 +59,7 @@ def _unavailable_value(country: Country, weights: Dict[str, float]) -> float:
     for factor in country.factors:
         if country.factors[factor] == -999:
             split += weights[factor] / (len(weights) - count_so_far)
-            weights[factor] = 0
+            country.factors[factor] = 0
 
     return split
 
