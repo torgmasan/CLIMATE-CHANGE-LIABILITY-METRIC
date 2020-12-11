@@ -7,7 +7,7 @@ CLEAN_DATASET = {}
 def set_up_computation(year: str) -> None:
     """Decrease computation time by calling the clean
     dataset once and providing th value to global constant
-    
+
     Precondition:
         - Must be called before any computation is done.
     """
@@ -93,7 +93,14 @@ def responsibility(weights: Dict[str, float],
 
 def budget_percentage(total_budget: float, country: Country,
                       factor_proportionality: Dict[str, str], weights: Dict[str, float]) -> float:
-    """Calculates the budget and the budget percentage based on the responsibility of the country"""
+    """Calculates the budget and the budget percentage based on the responsibility of the country
+
+    Preconditions:
+        - all(factor_proportionality[factor] == 'direct' or
+        factor_proportionality[factor] == 'inverse' factor in factor_proportionality)
+        - factor_proportionality.keys() == weights.keys()
+        - total_budget >= 1,000,000
+    """
     budget = responsibility(weights, country, factor_proportionality) * total_budget
     percentage = budget / country.gdp * 100
     return percentage
