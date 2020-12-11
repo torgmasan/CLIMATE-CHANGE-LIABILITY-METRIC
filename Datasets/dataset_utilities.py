@@ -15,7 +15,7 @@ class Country:
     factors: dict
 
 
-def extract_wanted_column(file_name: str, dependant_column: str, indepenent_column='Country Code',
+def extract_wanted_column(file_name: str, dependant_column: str, independent_column='Country Code',
                           back_up_independent_column='Country Name') -> Dict[str, str]:
     """Return two lists which contain the essential columns from the input csv files for further processing.
 
@@ -32,7 +32,7 @@ def extract_wanted_column(file_name: str, dependant_column: str, indepenent_colu
         req_i = req_j = back_up_req_i = -999
 
         for i in range(len(header)):
-            if header[i] == indepenent_column:
+            if header[i] == independent_column:
                 req_i = i
             elif header[i] == dependant_column:
                 req_j = i
@@ -61,7 +61,7 @@ def extract_wanted_column(file_name: str, dependant_column: str, indepenent_colu
 
 COUNTRY_CODE_TABLE = extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
                                                         'Datasets/Raw Datasets/Constant Datasets/countries_codes_and_coordinates.csv'),
-                                           'Alpha-3 code', indepenent_column='Country', back_up_independent_column='')
+                                           'Alpha-3 code', independent_column='Country', back_up_independent_column='')
 
 
 def name_to_iso(name_target: str) -> str:
