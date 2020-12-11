@@ -8,6 +8,7 @@ from Application.Layouts.home_user_input_layout import Ui_HomeMainWindow
 from Application.Layouts.precondition_failed_dialog import Ui_Dialog
 from Application.Layouts.weightage_user_input_layout import Ui_WeightageMainWindow
 from Datasets.dataset_utilities import possible_years, get_raw_datasets
+from Application.Functionalities.map import run
 
 app = QApplication(sys.argv)
 
@@ -62,7 +63,7 @@ class HomeWindow(CCLMApplicationWindow, Ui_HomeMainWindow):
             self.dataset_to_correlation[dataset] = str(current_combo.currentText())
 
         self.next_win = WeightageWindow(combo_year, self.dataset_to_correlation)
-        super(HomeWindow, self).next_window(self.next_win)
+        super(HomeWindow, self).next_window()
 
 
 class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
@@ -80,8 +81,7 @@ class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
 
         self.populate_grid()
 
-        self.all_map.clicked.connect(self.map_win_open)
-        self.all_stats.clicked.connect(self.country_list_win_open)
+        self.display_analysis.clicked.connect(self.map_win_open)
 
     def populate_grid(self) -> None:
         """Adds required Label and QLineEdit items to
@@ -130,15 +130,19 @@ class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
             error_dialog.exec_()
             return False
 
-    def country_list_win_open(self) -> None:
-        """Close the WeightageWindow and open the CountryListWindow"""
-        if self.precondition_evaluation():
-            self.close()
-
     def map_win_open(self) -> None:
         """Close the WeightageWindow and open the MapWindow"""
+
         if self.precondition_evaluation():
-            self.close()
+            total_budget = float(self.budget.text())
+            factor_proportionality = {data_name: self.dataset_to_correlation[data_name]
+                                      for data_name in self.dataset_to_correlation}
+            weights = {data_name: float(self.dataset_to_weightage[data_name]) / 100
+                       for data_name in self.dataset_to_correlation}
+
+            run(total_budget, factor_proportionality,
+                weights, self.year)
+            self.next_window()
 
 
 gui_home = HomeWindow()

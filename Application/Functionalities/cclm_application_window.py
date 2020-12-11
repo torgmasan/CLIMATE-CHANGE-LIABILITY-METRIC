@@ -15,9 +15,10 @@ class CCLMApplicationWindow(QMainWindow):
         """Adds widgets in a grid to the window"""
         raise NotImplementedError
 
-    def next_window(self, next_win) -> None:
+    def next_window(self) -> None:
         """Provide functionality for the button responsible
         for window navigation
         """
         self.close()
-        next_win.show()
+        if self.next_win is not None:
+            self.next_win.show()
