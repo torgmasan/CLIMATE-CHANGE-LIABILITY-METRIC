@@ -5,3 +5,6 @@ PyQt5
 
 # Data Visusalization
 plotly
+
+# Hidden dataframe import
+pandas
