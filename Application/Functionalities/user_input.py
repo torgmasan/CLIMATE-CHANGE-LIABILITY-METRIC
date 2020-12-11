@@ -1,14 +1,22 @@
 import sys
 from typing import Dict
 
-from PyQt5.QtWidgets import QApplication, QLabel, QComboBox, QLineEdit
+from PyQt5.QtWidgets import QApplication, QLabel, QComboBox, QLineEdit, QDialog
 from Application.Functionalities.cclm_application_window import CCLMApplicationWindow
 from PyQt5 import QtCore
 from Application.Layouts.home_user_input_layout import Ui_HomeMainWindow
+from Application.Layouts.precondition_failed_dialog import Ui_Dialog
 from Application.Layouts.weightage_user_input_layout import Ui_WeightageMainWindow
 from Datasets.dataset_utilities import possible_years, get_raw_datasets
 
 app = QApplication(sys.argv)
+
+
+class WarnDialog(QDialog, Ui_Dialog):
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
 
 
 class HomeWindow(CCLMApplicationWindow, Ui_HomeMainWindow):
@@ -47,27 +55,33 @@ class HomeWindow(CCLMApplicationWindow, Ui_HomeMainWindow):
 
     def weight_win_open(self) -> None:
         """Close the HomeWindow and open the WeightageWindow"""
+        combo_year = str(self.year_drop_down.currentText())
+
         for dataset in self.dataset_to_combo_box:
             current_combo = self.dataset_to_combo_box[dataset]
             self.dataset_to_correlation[dataset] = str(current_combo.currentText())
 
-        self.next_win = WeightageWindow(self.dataset_to_correlation)
+        self.next_win = WeightageWindow(combo_year, self.dataset_to_correlation)
         super(HomeWindow, self).next_window(self.next_win)
 
 
 class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
     """Second Screen for CCLM, taking in weightage for each dataset from user"""
 
-    def __init__(self, dataset_to_correlation: Dict[str, str]) -> None:
+    def __init__(self, year: str, dataset_to_correlation: Dict[str, str]) -> None:
         super().__init__()
         self.setupUi(self)
 
         self.dataset_to_correlation = dataset_to_correlation
+        self.year = year
 
         self.dataset_to_line_edit = {}
         self.dataset_to_weightage = {}
 
         self.populate_grid()
+
+        self.all_map.clicked.connect(self.map_win_open)
+        self.all_stats.clicked.connect(self.country_list_win_open)
 
     def populate_grid(self) -> None:
         """Adds required Label and QLineEdit items to
@@ -88,13 +102,43 @@ class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
 
         self.factor_form.setSpacing(30)
 
+    def precondition_evaluation(self) -> bool:
+        """Evaluate all user input and check if it satisfies all
+        preconditions of following functions involved in computation.
+        """
+        try:
+            total_budget = float(self.budget.text())
+            is_budget_valid = total_budget >= 1000000
+
+            for line_edit in self.dataset_to_line_edit:
+                self.dataset_to_weightage[line_edit] = self.dataset_to_line_edit[line_edit].text()
+
+            is_sum_valid = sum(float(self.dataset_to_weightage[dataset])
+                               for dataset in self.dataset_to_weightage) == 100
+
+            is_factor_valid = all(float(self.dataset_to_weightage[dataset]) >= 0
+                                  for dataset in self.dataset_to_weightage)
+
+            if is_factor_valid and is_sum_valid and is_budget_valid:
+                return True
+            else:
+                error_dialog = WarnDialog()
+                error_dialog.exec_()
+                return False
+        except ValueError:
+            error_dialog = WarnDialog()
+            error_dialog.exec_()
+            return False
+
     def country_list_win_open(self) -> None:
         """Close the WeightageWindow and open the CountryListWindow"""
-        pass
+        if self.precondition_evaluation():
+            self.close()
 
     def map_win_open(self) -> None:
         """Close the WeightageWindow and open the MapWindow"""
-        pass
+        if self.precondition_evaluation():
+            self.close()
 
 
 gui_home = HomeWindow()
