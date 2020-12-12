@@ -145,6 +145,8 @@ class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
             self.next_window()
 
 
-gui_home = HomeWindow()
-gui_home.show()
-sys.exit(app.exec_())
+def run_app() -> None:
+    """Runs the home application"""
+    gui_home = HomeWindow()
+    gui_home.show()
+    sys.exit(app.exec_())

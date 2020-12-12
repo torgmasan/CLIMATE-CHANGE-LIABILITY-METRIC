@@ -16,7 +16,7 @@ def _plot(total_budget: float, factor_proportionality: Dict[str, str], weights: 
 
 
 def run(total_budget: float, factor_proportionality: Dict[str, str], weights: Dict[str, float],
-        year: str) -> pandas.DataFrame:
+        year: str) -> None:
     """Plots the graph with the passed parameters"""
 
     map_data = map_iso_to_country('2014')
@@ -36,4 +36,3 @@ def run(total_budget: float, factor_proportionality: Dict[str, str], weights: Di
                         hover_data=['Renewable Energy', 'CO2 Emissions', 'Climate Risk Index', 'GDP'],
                         color_continuous_scale=px.colors.sequential.Plasma)
     fig.show()
-    return df
