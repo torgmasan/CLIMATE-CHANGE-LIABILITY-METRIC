@@ -8,3 +8,6 @@ plotly
 
 # Hidden dataframe import
 pandas
+
+#testing and analysis
+python-ta

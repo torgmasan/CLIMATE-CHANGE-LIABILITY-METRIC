@@ -1,10 +1,14 @@
+"""
+Creates a data class Country. It also creates the clean dataset devoid of the unnecessary columns
+and maps the values to the corresponding countries for every factor.
+"""
 from typing import Dict, Optional, List
 import csv
 from dataclasses import dataclass
 from datetime import datetime
-from path import GLOBAL_PROJECT_PATH
-import warnings
 import os
+import warnings
+from path import GLOBAL_PROJECT_PATH
 
 
 @dataclass
@@ -17,7 +21,8 @@ class Country:
 
 def extract_wanted_column(file_name: str, dependant_column: str, independent_column='Country Code',
                           back_up_independent_column='Country Name') -> Dict[str, str]:
-    """Return two lists which contain the essential columns from the input csv files for further processing.
+    """Return two lists which contain the essential columns from the
+    input csv files for further processing.
 
     Precondition:
         - filepath refers to a csv file with 2 or more columns
@@ -30,8 +35,8 @@ def extract_wanted_column(file_name: str, dependant_column: str, independent_col
         header = next(reader)
 
         req_i = req_j = back_up_req_i = -999
-
-        for i in range(len(header)):
+        length = len(header)
+        for i in range(length):
             if header[i] == independent_column:
                 req_i = i
             elif header[i] == dependant_column:
@@ -60,8 +65,11 @@ def extract_wanted_column(file_name: str, dependant_column: str, independent_col
 
 
 COUNTRY_CODE_TABLE = extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
-                                                        'Computation/Raw Datasets/Constant Datasets/countries_codes_and_coordinates.csv'),
-                                           'Alpha-3 code', independent_column='Country', back_up_independent_column='')
+                                                        'Computation/Raw Datasets/Constant '
+                                                        'Datasets/'
+                                                        'countries_codes_and_coordinates.csv'),
+                                           'Alpha-3 code', independent_column='Country',
+                                           back_up_independent_column='')
 
 
 def name_to_iso(name_target: str) -> str:
@@ -72,8 +80,8 @@ def name_to_iso(name_target: str) -> str:
     """
     if name_target in COUNTRY_CODE_TABLE:
         return COUNTRY_CODE_TABLE[name_target]
-    else:
-        return 'Not Found'
+
+    return 'Not Found'
 
 
 def get_raw_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
@@ -85,14 +93,15 @@ def get_raw_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
         - All csv files have a column of either 'Country Name' or 'Country Code'
         as well as a column of the input year
     """
-    target_path = os.path.join(GLOBAL_PROJECT_PATH, 'Computation/Raw Datasets/Responsibility Datasets/')
+    target_path = os.path.join(GLOBAL_PROJECT_PATH,
+                               'Computation/Raw Datasets/Responsibility Datasets/')
     files = os.listdir(target_path)
     data_dict = {}
 
     try:
         for name in files:
-            data_dict[name[:-4]] = extract_wanted_column(os.path.join(target_path, name), year, 'Country Code',
-                                                         'Country Name')
+            data_dict[name[:-4]] = extract_wanted_column(os.path.join(target_path, name),
+                                                         year, 'Country Code', 'Country Name')
     except IndexError:
         return None
 
@@ -111,9 +120,8 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
     code_to_country = {}
     responsibility_datasets = get_raw_datasets(year)
 
-    country_gdp_table = extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
-                                                           'Computation/Raw Datasets/Constant Datasets/GDP.csv'),
-                                              year)
+    country_gdp_table = extract_wanted_column(os.path.join(
+        GLOBAL_PROJECT_PATH, 'Computation/Raw Datasets/Constant Datasets/GDP.csv'), year)
 
     for country in COUNTRY_CODE_TABLE:
         country_data_map = {}
@@ -123,12 +131,15 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
             for dataset in responsibility_datasets:
                 corresponding_data = responsibility_datasets[dataset]
                 country_data_map[dataset] = float(corresponding_data[country_iso])
+            check = country_gdp_table[country_iso] == -999
 
-            no_information = all(country_data_map[dataset] == -999 for dataset in country_data_map) \
-                             or country_gdp_table[country_iso] == -999
+            no_information = all(country_data_map[factor] == -999
+                                 for factor in country_data_map) or check
 
             if not no_information:
-                code_to_country[country_iso] = Country(country, float(country_gdp_table[country_iso]), country_data_map)
+                code_to_country[country_iso] = Country(country,
+                                                       float(country_gdp_table[country_iso]),
+                                                       country_data_map)
             else:
                 warnings.warn('Unavailable data ' + country, RuntimeWarning)
 
@@ -172,3 +183,17 @@ def possible_years() -> List[str]:
             possible_year_list.append(year_str)
 
     return possible_year_list
+
+
+if __name__ == '__main__':
+    import doctest
+
+    doctest.testmod(verbose=True)
+
+    import python_ta
+
+    python_ta.check_all(config={
+        'extra-imports': ['math'],
+        'max-line-length': 100,
+        'disable': ['E9999', 'E9970', 'E9998']
+    })
