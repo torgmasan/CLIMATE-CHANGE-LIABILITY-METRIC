@@ -1,5 +1,5 @@
 from Computation.dataset_utilities import Country, get_clean_datasets
-from typing import Dict
+from typing import Dict, Tuple
 
 CLEAN_DATASET = {}
 
@@ -90,8 +90,8 @@ def responsibility(weights: Dict[str, float],
     return weighted_result
 
 
-def budget_percentage(total_budget: float, country: Country,
-                      factor_proportionality: Dict[str, str], weights: Dict[str, float]) -> float:
+def budget_details(total_budget: float, country: Country,
+                   factor_proportionality: Dict[str, str], weights: Dict[str, float]) -> Tuple[float, float]:
     """Calculates the budget and the budget percentage based on the responsibility of the country
 
     Preconditions:
@@ -101,4 +101,5 @@ def budget_percentage(total_budget: float, country: Country,
         - total_budget >= 1,000,000
     """
     budget = responsibility(weights, country, factor_proportionality) * total_budget
-    return budget
+    percentage = budget / country.gdp * 100
+    return budget, percentage
