@@ -101,5 +101,5 @@ def budget_percentage(total_budget: float, country: Country,
         - total_budget >= 1,000,000
     """
     budget = responsibility(weights, country, factor_proportionality) * total_budget
-    percentage = budget / country.gdp * 100
-    return percentage
+    # percentage = budget / country.gdp * 100
+    return budget
