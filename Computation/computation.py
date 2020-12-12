@@ -30,7 +30,7 @@ def _positive_calculation(factor: str, country: Country) -> float:
     """Calculates the weighted responsibility if the relation is positive."""
     total_data = _calculate_total(factor)
     country_data = country.factors[factor]
-    calc = country_data / total_data * 100
+    calc = country_data / total_data
 
     return calc
 
@@ -41,7 +41,7 @@ def _negative_calculation(factor: str, country: Country) -> float:
     country_data = country.factors[factor]
     sum_so_far = sum([total_data - float(CLEAN_DATASET[factor][i]) for i in
                       CLEAN_DATASET[factor]])
-    calc = (total_data - country_data) / sum_so_far * 100
+    calc = (total_data - country_data) / sum_so_far
 
     return calc
 
@@ -101,5 +101,4 @@ def budget_percentage(total_budget: float, country: Country,
         - total_budget >= 1,000,000
     """
     budget = responsibility(weights, country, factor_proportionality) * total_budget
-    # percentage = budget / country.gdp * 100
     return budget
