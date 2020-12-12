@@ -7,7 +7,7 @@ from PyQt5 import QtCore
 from Application.Layouts.home_user_input_layout import Ui_HomeMainWindow
 from Application.Layouts.precondition_failed_dialog import Ui_Dialog
 from Application.Layouts.weightage_user_input_layout import Ui_WeightageMainWindow
-from Datasets.dataset_utilities import possible_years, get_raw_datasets
+from Computation.dataset_utilities import possible_years, get_raw_datasets
 from Application.Functionalities.map import run
 
 app = QApplication(sys.argv)
@@ -36,10 +36,10 @@ class HomeWindow(CCLMApplicationWindow, Ui_HomeMainWindow):
 
     def populate_grid(self) -> None:
         """Adds required Label and ComboBox items to
-        obtain correlation for all csv files in Responsibility Datasets directory
+        obtain correlation for all csv files in Responsibility Computation directory
 
         Preconditions:
-            - At least one csv file in Raw Datasets
+            - At least one csv file in Raw Computation
         """
         temp_combo_year = str(self.year_drop_down.currentText())
         correlation_keys = list(get_raw_datasets(temp_combo_year).keys())
@@ -85,7 +85,7 @@ class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
 
     def populate_grid(self) -> None:
         """Adds required Label and QLineEdit items to
-        obtain weightage for all csv files in Responsibility Datasets directory
+        obtain weightage for all csv files in Responsibility Computation directory
 
         Preconditions:
             - All user input is 0 <= input <= 100

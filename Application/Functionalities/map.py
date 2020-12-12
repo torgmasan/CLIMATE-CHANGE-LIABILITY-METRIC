@@ -1,7 +1,7 @@
 import plotly.express as px
 from typing import Dict
-from Datasets.dataset_utilities import map_iso_to_country
-from Datasets.computation import budget_percentage, set_up_computation
+from Computation.dataset_utilities import map_iso_to_country
+from Computation.computation import budget_percentage, set_up_computation
 import pandas
 
 

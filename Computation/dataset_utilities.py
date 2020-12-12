@@ -60,7 +60,7 @@ def extract_wanted_column(file_name: str, dependant_column: str, independent_col
 
 
 COUNTRY_CODE_TABLE = extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
-                                                        'Datasets/Raw Datasets/Constant Datasets/countries_codes_and_coordinates.csv'),
+                                                        'Computation/Raw Datasets/Constant Datasets/countries_codes_and_coordinates.csv'),
                                            'Alpha-3 code', independent_column='Country', back_up_independent_column='')
 
 
@@ -80,12 +80,12 @@ def get_raw_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
     """Provide a raw version of the datasets used for computation
 
     Precondition:
-        - At least one csv file in the Constant Datasets directory
+        - At least one csv file in the Constant Computation directory
         - All files are csv files with .csv extension
         - All csv files have a column of either 'Country Name' or 'Country Code'
         as well as a column of the input year
     """
-    target_path = os.path.join(GLOBAL_PROJECT_PATH, 'Datasets/Raw Datasets/Responsibility Datasets/')
+    target_path = os.path.join(GLOBAL_PROJECT_PATH, 'Computation/Raw Datasets/Responsibility Datasets/')
     files = os.listdir(target_path)
     data_dict = {}
 
@@ -112,7 +112,7 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
     responsibility_datasets = get_raw_datasets(year)
 
     country_gdp_table = extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
-                                                           'Datasets/Raw Datasets/Constant Datasets/GDP.csv'),
+                                                           'Computation/Raw Datasets/Constant Datasets/GDP.csv'),
                                               year)
 
     for country in COUNTRY_CODE_TABLE:
