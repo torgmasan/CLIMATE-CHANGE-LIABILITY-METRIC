@@ -2,26 +2,28 @@ import sys
 from typing import Dict
 
 from PyQt5.QtWidgets import QApplication, QLabel, QComboBox, QLineEdit, QDialog
-from Application.Functionalities.cclm_application_window import CCLMApplicationWindow
 from PyQt5 import QtCore
+from Application.Functionalities.cclm_application_window import CCLMApplicationWindow
 from Application.Layouts.home_user_input_layout import Ui_HomeMainWindow
 from Application.Layouts.precondition_failed_dialog import Ui_Dialog
 from Application.Layouts.weightage_user_input_layout import Ui_WeightageMainWindow
-from Computation.dataset_utilities import possible_years, get_raw_datasets
 from Application.Functionalities.map import run
+from Computation.dataset_utilities import possible_years, get_raw_datasets
 
 app = QApplication(sys.argv)
 
 
 class WarnDialog(QDialog, Ui_Dialog):
-
-    def __init__(self):
+    """"""
+    def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
 
 
 class HomeWindow(CCLMApplicationWindow, Ui_HomeMainWindow):
     """Home Screen for CCLM, taking in correlation input from user"""
+    dataset_to_combo_box: Dict
+    dataset_to_correlation: Dict
 
     def __init__(self) -> None:
         super().__init__()
@@ -44,8 +46,8 @@ class HomeWindow(CCLMApplicationWindow, Ui_HomeMainWindow):
         temp_combo_year = str(self.year_drop_down.currentText())
         correlation_keys = list(get_raw_datasets(temp_combo_year).keys())
         combo_box_items = ['direct', 'inverse']
-
-        for i in range(len(correlation_keys)):
+        length = len(correlation_keys)
+        for i in range(length):
             label = QLabel(correlation_keys[i])
             label.setAlignment(QtCore.Qt.AlignCenter)
             self.correlation_grid.addWidget(label, i, 0)
@@ -68,6 +70,10 @@ class HomeWindow(CCLMApplicationWindow, Ui_HomeMainWindow):
 
 class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
     """Second Screen for CCLM, taking in weightage for each dataset from user"""
+    dataset_to_correlation: Dict[str, str]
+    year: str
+    dataset_to_line_edit: Dict
+    dataset_to_weightage: Dict
 
     def __init__(self, year: str, dataset_to_correlation: Dict[str, str]) -> None:
         super().__init__()
@@ -121,10 +127,7 @@ class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
 
             if is_factor_valid and is_sum_valid and is_budget_valid:
                 return True
-            else:
-                error_dialog = WarnDialog()
-                error_dialog.exec_()
-                return False
+            return False
         except ValueError:
             error_dialog = WarnDialog()
             error_dialog.exec_()
@@ -150,3 +153,17 @@ def run_app() -> None:
     gui_home = HomeWindow()
     gui_home.show()
     sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    import doctest
+
+    doctest.testmod(verbose=True)
+
+    import python_ta
+
+    python_ta.check_all(config={
+        'extra-imports': ['math'],
+        'max-line-length': 100,
+        'disable': ['E9997', 'E9999', 'E0611', 'E0401']
+    })

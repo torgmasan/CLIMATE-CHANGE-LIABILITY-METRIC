@@ -1,5 +1,10 @@
-from Computation.dataset_utilities import Country, get_clean_datasets
+"""
+This is the Computation portion of the application. Its primary purpose
+is to calculate the responsibility and budget details(both the actual
+budget and the budget percentage).
+"""
 from typing import Dict, Tuple
+from Computation.dataset_utilities import Country, get_clean_datasets
 
 CLEAN_DATASET = {}
 
@@ -91,7 +96,8 @@ def responsibility(weights: Dict[str, float],
 
 
 def budget_details(total_budget: float, country: Country,
-                   factor_proportionality: Dict[str, str], weights: Dict[str, float]) -> Tuple[float, float]:
+                   factor_proportionality: Dict[str, str],
+                   weights: Dict[str, float]) -> Tuple[float, float]:
     """Calculates the budget and the budget percentage based on the responsibility of the country
 
     Preconditions:
@@ -103,3 +109,17 @@ def budget_details(total_budget: float, country: Country,
     budget = responsibility(weights, country, factor_proportionality) * total_budget
     percentage = budget / country.gdp * 100
     return budget, percentage
+
+
+if __name__ == '__main__':
+    import doctest
+
+    doctest.testmod(verbose=True)
+
+    import python_ta
+
+    python_ta.check_all(config={
+        'extra-imports': ['math'],
+        'max-line-length': 100,
+        'disable': ['E0611', 'E9999', 'E0401', 'W0603', 'E9997']
+    })
