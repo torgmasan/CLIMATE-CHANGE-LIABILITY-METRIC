@@ -1,3 +1,5 @@
+# Layout for the preconditions failed error dialog
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 

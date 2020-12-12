@@ -1,3 +1,5 @@
+# Layout for the weightage input page, created using QtDesigner
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
