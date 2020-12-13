@@ -21,7 +21,11 @@ def set_up_computation(year: str) -> None:
 
 
 def _calculate_total(factor: str) -> float:
-    """Calculates the total of the factor passed"""
+    """Calculates the total of the factor passed
+    >>> set_up_computation('2014')
+    >>> _calculate_total('GDP')
+    76774314690507.08
+    """
     total = 0.0
 
     for countries in CLEAN_DATASET[factor]:
@@ -32,7 +36,16 @@ def _calculate_total(factor: str) -> float:
 
 
 def _positive_calculation(factor: str, country: Country) -> float:
-    """Calculates the weighted responsibility if the relation is positive."""
+    """Calculates the weighted responsibility if the relation is positive.
+
+
+    >>> from Computation.dataset_utilities import map_iso_to_country
+    >>> Canada = map_iso_to_country('2014')['CAN']
+    >>> set_up_computation('2014')
+    >>> _positive_calculation('Carbon Dioxide Emissions', Canada)
+    0.016379052517579262
+
+    """
     total_data = _calculate_total(factor)
     country_data = country.factors[factor]
     calc = country_data / total_data
@@ -41,7 +54,14 @@ def _positive_calculation(factor: str, country: Country) -> float:
 
 
 def _negative_calculation(factor: str, country: Country) -> float:
-    """Calculates the weighted responsibility if the relation is negative."""
+    """Calculates the weighted responsibility if the relation is negative.
+
+    >>> from Computation.dataset_utilities import map_iso_to_country
+    >>> Canada = map_iso_to_country('2014')['CAN']
+    >>> set_up_computation('2014')
+    >>> _negative_calculation('Renewable Energy', Canada)
+    0.00607266929574747
+    """
     total_data = _calculate_total(factor)
     country_data = country.factors[factor]
     sum_so_far = sum([total_data - float(CLEAN_DATASET[factor][i]) for i in
@@ -53,7 +73,15 @@ def _negative_calculation(factor: str, country: Country) -> float:
 
 def _unavailable_value(country: Country, weights: Dict[str, float]) -> float:
     """Calculates the split of the weights for responsibility based on the number of
-    unavailable values"""
+    unavailable values.
+
+    >>> from Computation.dataset_utilities import map_iso_to_country
+    >>> Canada = map_iso_to_country('2014')['CAN']
+    >>> set_up_computation('2014')
+    >>> _unavailable_value(Canada, {'GDP': 25, 'Renewable Energy': 25,
+    ...                             'Carbon Dioxide Emissions': 25, 'Climate Risk Index': 25})
+    0.0
+    """
     count_so_far = 0
     split = 0.0
 
@@ -75,6 +103,15 @@ def _responsibility(weights: Dict[str, float],
     Preconditions:
         - sum([weights[factor] for factor in country.factors]) == 100.0
         - factor_proportionality.keys() == country.factors.keys()
+
+    >>> from Computation.dataset_utilities import map_iso_to_country
+    >>> Canada = map_iso_to_country('2014')['CAN']
+    >>> set_up_computation('2014')
+    >>> w = {'GDP': 25, 'Renewable Energy': 25, 'Carbon Dioxide Emissions': 25, 'Climate Risk Index': 25}
+    >>> f = {'GDP': 'direct', 'Renewable Energy': 'inverse',
+    ...      'Carbon Dioxide Emissions': 'direct', 'Climate Risk Index': 'direct'}
+    >>> _responsibility(w, Canada, f)
+    1.3187578635060144
     """
     weighted_result = 0.0
     score = {}
@@ -105,6 +142,15 @@ def budget_details(total_budget: float, country: Country,
         factor_proportionality[factor] == 'inverse' factor in factor_proportionality)
         - factor_proportionality.keys() == weights.keys()
         - total_budget >= 1,000,000
+
+    >>> from Computation.dataset_utilities import map_iso_to_country
+    >>> Canada = map_iso_to_country('2014')['CAN']
+    >>> set_up_computation('2014')
+    >>> w = {'GDP': 25, 'Renewable Energy': 25, 'Carbon Dioxide Emissions': 25, 'Climate Risk Index': 25}
+    >>> f = {'GDP': 'direct', 'Renewable Energy': 'inverse',
+    ...      'Carbon Dioxide Emissions': 'direct', 'Climate Risk Index': 'direct'}
+    >>> budget_details(1000000, Canada, f, w)
+    (1318757.8635060145, 7.312079734975369e-05)
     """
     budget = _responsibility(weights, country, factor_proportionality) * total_budget
     percentage = budget / country.gdp * 100

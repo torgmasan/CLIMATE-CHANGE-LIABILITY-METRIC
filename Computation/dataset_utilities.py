@@ -31,8 +31,8 @@ def _extract_wanted_column(file_name: str, dependent_column: str, independent_co
     >>> _extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
     ...                                     'Computation/Raw Datasets/Responsibility '
     ...                                     'Datasets/'
-    ...                                     'GDP.csv'), '2014')['IND']
-    '2039127446298.55'
+    ...                                     'GDP.csv'), '2014')['CAN']
+    '1803533209844.65'
     """
     mapping_of_relevant_columns = {}
 
@@ -102,8 +102,8 @@ def get_raw_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
         - All csv files have a column of either 'Country Name' or 'Country Code'
         as well as a column of the input year
 
-    >>> get_raw_datasets('2014')['Renewable Energy']['USA']
-    '8.75430895443964'
+    >>> get_raw_datasets('2014')['Renewable Energy']['CAN']
+    '22.024651539556'
     """
     target_path = os.path.join(GLOBAL_PROJECT_PATH,
                                'Computation/Raw Datasets/Responsibility Datasets/')
@@ -126,13 +126,13 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
         - All csv files have a column of either 'Country Name' or 'Country Code'
         as well as a column of the input year
 
-    >>> China = map_iso_to_country('2014')['CHN']
-    >>> China.name
-    'China'
-    >>> China.gdp
-    10475682846632.2
-    >>> China.factors['Carbon Dioxide Emissions']
-    10291926.878
+    >>> Canada = map_iso_to_country('2014')['CAN']
+    >>> Canada.name
+    'Canada'
+    >>> Canada.gdp
+    1803533209844.65
+    >>> Canada.factors['Carbon Dioxide Emissions']
+    540614.809
     """
 
     code_to_country = {}
@@ -170,8 +170,8 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
 def get_clean_datasets(year: str) -> Dict[str, Dict[str, str]]:
     """Provide a final revised dataset for performing computations
 
-    >>> get_clean_datasets('2014')['Climate Risk Index']['AUS']
-    52.17
+    >>> get_clean_datasets('2014')['Climate Risk Index']['CAN']
+    102.17
     """
     raw_data_map = get_raw_datasets(year)
     clean_data_map = {}
