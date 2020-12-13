@@ -64,7 +64,7 @@
 
 
     \section*{Computational Plan}
-    \textbf{NIKHIL edit this first paragraph(if required) followed by your on description of gathering data like dataset\_utilities etc.}
+    \textbf{NIKHIL edit this first paragraph(if required) followed by your on description of gathering data like \texttt{dataset\_utilities} etc.}
     \newline
     The application first takes in user input for a year to Analyze. The user is provided a drop-down of
     possible years to choose from(only 2014 until the CRI dataset is removed from the Responsibility Datasets directory).
@@ -78,28 +78,30 @@
         \item [2.] all constants must be greater than 0 and equal to 100
     \end{enumerate}
 
-    As the application is executed, the map\_win\_open method in Application.Functionalities.user\_input calls the run
+    As the application is executed, the \texttt{map\_win\_open} method in Application.Functionalities.user\_input calls the run
     method in Map.py which is a public method that displays a choropleth map giving information about the
     budget, budget percentage, name of the country, its iso-code and each country’s data for every
     factor. This data can be viewed by hovering over the country on the map; this feature is executed
     using the package pandas’ DataFame method and plotly.express. The budget and budget percentage for each
-    country are obtained by calling the private\_plot method that takes in the required information and
-    calls the budget\_details method in computation.py to return a dictionary mapping each country code to a
+    country are obtained by calling the private \texttt{\_plot} method that takes in the required information and
+    calls the \texttt{budget\_details} method in computation.py to return a dictionary mapping each country code to a
     corresponding tuple of the budget and budget percentage.\newline
 
-    budget\_details is a public method that calculates the appropriate amount in US dollars to be allocated to
+    \texttt{budget\_details} is a public method that calculates the appropriate amount in US dollars to be allocated to
     each country and returns a tuple containing both budget and budget percentage for that specific country
     based on the formula,
     \[
         Budget(A) = Responsibility(A) \cdot Total \_ Budget
-        GDP \% = \frac{Budget(A)}{Total \, Budget} \cdot 100
     \]
-    It does this by calling the private method \_responsibility. It carries out
+    \[
+        GDP \% = \frac{Budget(A)}{Country's \, GDP} \cdot 100
+    \]
+    It does this by calling the private method \texttt{\_responsibility}. It carries out
     the major chunk of the calculation by first checking whether there is any unavailable data for a country in a
     specific factor (this is only if the country has data for at least one of the factors). If this is the
     case, then the country is removed from the dict and not displayed on the map. \newline
 
-    \_responsibility also calls private methods \_negative\_calculation and \_positive\_calculation for each factor based on
+    \texttt{\_responsibility} also calls private methods \texttt{\_negative\_calculation} and \texttt{\_positive\_calculation} for each factor based on
     their relation of ‘direct’ or ‘inverse’ as input by the user.\newline
     \begin{enumerate}
         \item [-] if the word 'direct' is used, it means that the factor is positively correlated to climate change like
