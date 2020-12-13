@@ -127,7 +127,11 @@ class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
 
             if is_factor_valid and is_sum_valid and is_budget_valid:
                 return True
+
+            error_dialog = WarnDialog()
+            error_dialog.exec_()
             return False
+
         except ValueError:
             error_dialog = WarnDialog()
             error_dialog.exec_()
