@@ -8,30 +8,30 @@
 \date{Monday, December 14, 2020}
 
 \begin{document}
-\maketitle
+    \maketitle
 
-\section*{Problem Description and Research Question}
+    \section*{Problem Description and Research Question}
 
-Change has been exponentially quick in the last century, and it certainly has not been kind to the climate of our world. Instead of guiding us away from the brink of destruction, many of our leaders have steered us right to the tipping point. Our problem is that some very privileged people are allowed to make decisions that adversely affect the entire planet. We have decided to research how various factors contribute to the individual impact of a nation on the worsening climate of the earth. We want to quantitatively find out how much each country is responsible for climate change.\newline
+    Change has been exponentially quick in the last century, and it certainly has not been kind to the climate of our world. Instead of guiding us away from the brink of destruction, many of our leaders have steered us right to the tipping point. Our problem is that some very privileged people are allowed to make decisions that adversely affect the entire planet. We have decided to research how various factors contribute to the individual impact of a nation on the worsening climate of the earth. We want to quantitatively find out how much each country is responsible for climate change.\newline
 
-Hence our research question is,
+    Hence our research question is,
 
-\textbf{What is each country’s responsibility, in monetary value, towards confronting the looming climate emergency based on certain factors, ranging from the country’s effect on the earth’s climate to its fiscal ability?}\newline
+    \textbf{What is each country’s responsibility, in monetary value, towards confronting the looming climate emergency based on certain factors, ranging from the country’s effect on the earth’s climate to its fiscal ability?}\newline
 
-The world runs on money, and any form of commitment on a global front must start off with a budget. This resulted in us choosing a monetary approach to answer the research question. However, the aim of the project is not realized through calculating this aforementioned budget, a role imposed upon the user, but is done so by producing a fair distribution of this budget amongst the nations of the world.\newline
+    The world runs on money, and any form of commitment on a global front must start off with a budget. This resulted in us choosing a monetary approach to answer the research question. However, the aim of the project is not realized through calculating this aforementioned budget, a role imposed upon the user, but is done so by producing a fair distribution of this budget amongst the nations of the world.\newline
 
-We intend to go about doing so by creating a desktop application that allows the user to gain this information in whichever way is more preferable: comparing nations in a choropleth map or analyzing each country separately. It is also imperative that the application has a clean and understandable User Interface so that the user is aware of the expected input as well as the features that come with it.\newline
-
-
-A major feature of the application is providing the user with the freedom to manipulate the datasets, weightage, and factors while using a set of standard underlying equations. There is a default directory with datasets that the users can use, but they are encouraged to delete or replace them with datasets of their own before running the program. The weight of each factor, the budget, and the year of analysis can be directly altered while running the application.  Together, this customizability allows for an interactive application that can produce several hypothetical budget distributions in a systematic, unbiased manner
+    We intend to go about doing so by creating a desktop application that allows the user to gain this information in whichever way is more preferable: comparing nations in a choropleth map or analyzing each country separately. It is also imperative that the application has a clean and understandable User Interface so that the user is aware of the expected input as well as the features that come with it.\newline
 
 
-\section*{Dataset Description}
+    A major feature of the application is providing the user with the freedom to manipulate the datasets, weightage, and factors while using a set of standard underlying equations. There is a default directory with datasets that the users can use, but they are encouraged to delete or replace them with datasets of their own before running the program. The weight of each factor, the budget, and the year of analysis can be directly altered while running the application. Together, this customizability allows for an interactive application that can produce several hypothetical budget distributions in a systematic, unbiased manner
+
+
+    \section*{Dataset Description}
 
     There are two directories in which datasets are stored. 'Responsibility Datasets' is where the user enters datasets as per what best fits their idea of assigning responsibility to each nation state. 'Constant Datasets' cannot be altered by the user since they are standard values in the computational formula.
 
 
-     \begin{center}
+    \begin{center}
         CONSTANT DATASETS
     \end{center}
 
@@ -40,7 +40,7 @@ A major feature of the application is providing the user with the freedom to man
 
         \item [1.] GDP is a dataset of the CSV format which provides basic information about each country such as GDP in from 1960 to 2017. The data has been compiled by the US government.
 
-        \item [2.]  countries\_codes\_and\_coordinates contain information regarding location and ISO 2 and 3 codes.  The country name and ISO code are used.  Dataset obtained from a Github repository under username Tadast.
+        \item [2.]  countries\_codes\_and\_coordinates contain information regarding location and ISO 2 and 3 codes. The country name and ISO code are used. Dataset obtained from a Github repository under username Tadast.
 
     \end{enumerate} \newpage
 
@@ -63,38 +63,76 @@ A major feature of the application is providing the user with the freedom to man
     Note: Each Dataset provided has data for a range of years. However, the data for CRI is from the year 2014 exclusively. Hence, the only common year available to the user for analysis is 2014. The user can change this by editing the directory containing datasets as required. The user’s preference and available data may differ and they have the freedom to input datasets in their best interest. This is elaborated further in the Computational Plan.
 
 
-\section*{Computational Plan}
-As the application is executed, the map_win_open method in Application.Functionalities.user_input calls the run
-method in Map.py which is a public method that displays a choropleth map giving information about the
-budget, budget percentage, name of the country, its iso-code and each country’s data for every
-factor. This data can be viewed by hovering over the country on the map; this feature is executed
-using the package pandas’ DataFame method and plotly.express. The budget and budget percentage for each
-country are obtained by calling the private_plot method that takes in the required information and
-calls the budget_details method in computation.py to return a dictionary mapping each country code to a
-corresponding tuple of the budget and budget percentage.\newline
+    \section*{Computational Plan}
+    \textbf{NIKHIL edit this first paragraph(if required) followed by your on description of gathering data like dataset\_utilities etc.}
+    \newline
+    The application first takes in user input for a year to Analyze. The user is provided a drop-down of
+    possible years to choose from(only 2014 until the CRI dataset is removed from the Responsibility Datasets directory).
+    The computation to find the possible years requires checking if there
+    is a column for that year in each input dataset. From this preliminary list of candidate years,
+    those which contain no data for the valid countries in any input dataset are also of no use and
+    are removed from the drop-down.\newline
 
-budget_details is a public method that calculates the appropriate amount in US dollars to be allocated to
-each country and returns a tuple containing both budget and budget percentage for that specific country
-based on the formula provided above. It does this by calling the private method _responsibility. It carries out
-the major chunk of the calculation by first checking whether there is any unavailable data for a country in a
-specific factor (this is only if the country has data for at least one of the factors). If this is the
-case, _unavailable_values method is called which calculates the number of factors where the data is missing
-for the given country and distributes the weightage of the missing factor to the ones that have data so
-that the weights for all factors always add up to $100$. This is done by calculating the number of factors
-where the data is unavailable, dividing them by the number of remaining available data and eventually
-adding them onto each weight in the method _responsibility. \newline
+    \begin{enumerate}
+        \item [1.] Mention precondition of over 1 million
+        \item [2.] all constants must be greater than 0 and equal to 100
+    \end{enumerate}
 
-_responsibility also calls private methods _negative_calculation and _positive_calculation for each factor based on
-their relation of ‘direct’ or ‘inverse’ as input by the user. They compute based on the formulas provided above
-and call method _calculate_total to calculate the sum of each country’s data for that factor.\newline
+    As the application is executed, the map\_win\_open method in Application.Functionalities.user\_input calls the run
+    method in Map.py which is a public method that displays a choropleth map giving information about the
+    budget, budget percentage, name of the country, its iso-code and each country’s data for every
+    factor. This data can be viewed by hovering over the country on the map; this feature is executed
+    using the package pandas’ DataFame method and plotly.express. The budget and budget percentage for each
+    country are obtained by calling the private\_plot method that takes in the required information and
+    calls the budget\_details method in computation.py to return a dictionary mapping each country code to a
+    corresponding tuple of the budget and budget percentage.\newline
 
-Using these functions, we were able to come up with an implementation for our plan and display the
-choropleth map along with the information of each country when the user hovers over that region.\newline
+    budget\_details is a public method that calculates the appropriate amount in US dollars to be allocated to
+    each country and returns a tuple containing both budget and budget percentage for that specific country
+    based on the formula,
+    \[
+        Budget(A) = Responsibility(A) \cdot Total \_ Budget
+        GDP \% = \frac{Budget(A)}{Total \, Budget} \cdot 100
+    \]
+    It does this by calling the private method \_responsibility. It carries out
+    the major chunk of the calculation by first checking whether there is any unavailable data for a country in a
+    specific factor (this is only if the country has data for at least one of the factors). If this is the
+    case, \_unavailable\_values method is called which calculates the number of factors where the data is missing
+    for the given country and distributes the weightage of the missing factor to the ones that have data so
+    that the weights for all factors always add up to $100$. This is done by calculating the number of factors
+    where the data is unavailable, dividing them by the number of remaining available data and eventually
+    adding them onto each weight in the method \_responsibility. \newline
+
+    \_responsibility also calls private methods \_negative\_calculation and \_positive\_calculation for each factor based on
+    their relation of ‘direct’ or ‘inverse’ as input by the user.\newline
+    \begin{enumerate}
+        \item [-] if the word 'direct' is used, it means that the factor is positively correlated to climate change like
+        GDP, Carbon Dioxide Emissions, and Climate Risk Index. It uses the formula,
+        \[
+            \frac{Country's data}{Total Data}
+        \]
+
+        \item [-] if the word 'inverse' is used, it means that the factor is negatively correlated to climate change like
+        Renewable Energy.
+        \[
+            \frac{Total \, data - Country's \, data}{\displaystyle\sum_{i \in Country \, data} Total \, data - i }
+        \]
+    \end{enumerate}
+    The result from these calculations(point out of 1) are then multiplied with the corresponding weight of the factor.
+    This is done for each factor and their sum(out of 100) gives the responsibility of that country.
+    \[
+        Responsibility = \alpha F1 + \beta F2 + \gamma F3 + \delta F4
+    \]
+    A way to crosscheck these values
+    is if the responsibilities of all countries are added, we get 100\%. Hence we know that the computation is right.
+    \newline
+    Using these methods, we were able to come up with an implementation for our plan and display the
+    choropleth map along with the information of each country when the user hovers over that region.\newline
 
 
 
-\section*{References}
+    \section*{References}
 
-TODO
+    TODO
 
 \end{document}
