@@ -71,31 +71,6 @@ def _negative_calculation(factor: str, country: Country) -> float:
     return calc
 
 
-def _unavailable_value(country: Country, weights: Dict[str, float]) -> float:
-    """Calculates the split of the weights for responsibility based on the number of
-    unavailable values.
-
-    >>> from Computation.dataset_utilities import map_iso_to_country
-    >>> Canada = map_iso_to_country('2014')['CAN']
-    >>> set_up_computation('2014')
-    >>> _unavailable_value(Canada, {'GDP': 25, 'Renewable Energy': 25,
-    ...                             'Carbon Dioxide Emissions': 25, 'Climate Risk Index': 25})
-    0.0
-    """
-    count_so_far = 0
-    split = 0.0
-
-    for factor in country.factors:
-        if country.factors[factor] == -999:
-            count_so_far += 1
-
-    for factor in country.factors:
-        if country.factors[factor] == -999:
-            split += weights[factor] / (len(weights) - count_so_far)
-            country.factors[factor] = 0
-    return split
-
-
 def _responsibility(weights: Dict[str, float],
                     country: Country, factor_proportionality: Dict[str, str]) -> float:
     """Calculates the responsibility of the given country.
@@ -115,19 +90,18 @@ def _responsibility(weights: Dict[str, float],
     """
     weighted_result = 0.0
     score = {}
-    split = _unavailable_value(country, weights)
 
     for factor in country.factors:
-        if country.factors[factor] != -999:
-            if factor_proportionality[factor] == 'direct':
-                result = _positive_calculation(factor, country)
-            else:
-                result = _negative_calculation(factor, country)
 
-            score[factor] = result
+        if factor_proportionality[factor] == 'direct':
+            result = _positive_calculation(factor, country)
+        else:
+            result = _negative_calculation(factor, country)
+
+        score[factor] = result
 
     for factor in score:
-        weighted_result += score[factor] * (weights[factor] + split)
+        weighted_result += score[factor] * weights[factor]
 
     return weighted_result
 
