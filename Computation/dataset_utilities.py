@@ -138,10 +138,10 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
                                                        float(country_gdp_table[country_iso]),
                                                        country_data_map)
             else:
-                warnings.warn('Unavailable data ' + country, RuntimeWarning)
+                warnings.warn('Unavailable data for ' + country + ' in ' + year, RuntimeWarning)
 
         except KeyError:
-            warnings.warn('Unavailable data for ' + country, RuntimeWarning)
+            warnings.warn('Unavailable data for ' + country + ' in ' + year, RuntimeWarning)
 
     return code_to_country
 

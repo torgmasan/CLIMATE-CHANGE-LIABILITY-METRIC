@@ -33,16 +33,20 @@ def run(total_budget: float, factor_proportionality: Dict[str, str], weights: Di
          'Budget Percentage': [output[code][1] for code in output],
          'Country Name': [map_data[code].name for code in map_data]}
 
-    keys = factor_proportionality.keys()
+    keys = list(factor_proportionality.keys())
+
     for factor in keys:
         d[factor] = [map_data[code].factors[factor] for code in map_data]
+
+    keys.append('Budget Percentage')
 
     df = pandas.DataFrame(data=d)
     fig = px.choropleth(df, locations="Iso Code",
                         color="Budget",
                         hover_name="Country Name",
-                        hover_data=list(keys).append('Budget Percentage'),
+                        hover_data=keys,
                         color_continuous_scale=px.colors.sequential.Plasma)
+
     fig.show()
 
 
