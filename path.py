@@ -13,8 +13,13 @@ def _global_project_path(current_path: str) -> str:
 
     Preconditions:
         - Project file structure has not been tampered with
+        - File was downloaded as per instructions from github
+        or markus
     """
-    if os.path.split(current_path)[1] == 'CLIMATE-CHANGE-LIABILITY-METRIC':
+    markus_root = 'CFRCC'
+    github_root = 'CLIMATE-CHANGE-LIABILITY-METRIC'
+
+    if os.path.split(current_path)[1] in {markus_root, github_root}:
         return current_path
 
     return _global_project_path(os.path.split(current_path)[0])
