@@ -49,7 +49,7 @@ def run(total_budget: float, factor_proportionality: Dict[str, str], weights: Di
 
     units = {'Climate Risk Index': 'Climate Risk Index (score out of 100)',
              'GDP': 'GDP (US$)',
-             'CO2 Emissions': 'Carbon Dioxide Emissions (metric kilotons)',
+             'Carbon Dioxide Emissions': 'Carbon Dioxide Emissions (metric kilotons)',
              'Renewable Energy': 'Renewable Energy (%)',
              'Budget': 'Budget (US$)',
              'Budget Percentage': 'Budget Percentage (%)'}
