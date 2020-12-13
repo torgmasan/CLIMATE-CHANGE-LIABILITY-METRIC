@@ -97,11 +97,7 @@
     It does this by calling the private method \_responsibility. It carries out
     the major chunk of the calculation by first checking whether there is any unavailable data for a country in a
     specific factor (this is only if the country has data for at least one of the factors). If this is the
-    case, \_unavailable\_values method is called which calculates the number of factors where the data is missing
-    for the given country and distributes the weightage of the missing factor to the ones that have data so
-    that the weights for all factors always add up to $100$. This is done by calculating the number of factors
-    where the data is unavailable, dividing them by the number of remaining available data and eventually
-    adding them onto each weight in the method \_responsibility. \newline
+    case, then the country is removed from the dict and not displayed on the map. \newline
 
     \_responsibility also calls private methods \_negative\_calculation and \_positive\_calculation for each factor based on
     their relation of ‘direct’ or ‘inverse’ as input by the user.\newline
