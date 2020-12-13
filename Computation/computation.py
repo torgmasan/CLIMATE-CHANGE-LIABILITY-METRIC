@@ -69,7 +69,7 @@ def _unavailable_value(country: Country, weights: Dict[str, float]) -> float:
 
 
 def _responsibility(weights: Dict[str, float],
-                   country: Country, factor_proportionality: Dict[str, str]) -> float:
+                    country: Country, factor_proportionality: Dict[str, str]) -> float:
     """Calculates the responsibility of the given country.
 
     Preconditions:

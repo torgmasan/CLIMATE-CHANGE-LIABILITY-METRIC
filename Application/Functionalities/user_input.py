@@ -1,3 +1,9 @@
+"""
+This script contains all windows that are displayed
+when the program is run. It is responsible for User interaction
+of all sorts, through GUI.
+"""
+
 import sys
 from typing import Dict
 
@@ -14,7 +20,8 @@ app = QApplication(sys.argv)
 
 
 class WarnDialog(QDialog, Ui_Dialog):
-    """"""
+    """Dialog Screen that alerts user if input that
+    violates Preconditions is entered."""
     def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)

@@ -23,7 +23,13 @@ def _plot(total_budget: float, factor_proportionality: Dict[str, str], weights: 
 
 def run(total_budget: float, factor_proportionality: Dict[str, str], weights: Dict[str, float],
         year: str) -> None:
-    """Plots the graph with the passed parameters"""
+    """Plots the graph with the passed parameters"
+
+       Preconditions:
+       - User has at least one responsibility dataset in the
+       required directory.
+       - all responsibility datasets are readable by the Computation scripts
+    """
 
     map_data = map_iso_to_country(year)
     set_up_computation(year)

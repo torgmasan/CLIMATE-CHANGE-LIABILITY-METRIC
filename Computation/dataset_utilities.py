@@ -6,11 +6,9 @@ from typing import Dict, Optional, List
 import csv
 from dataclasses import dataclass
 from datetime import datetime
-import os
 import warnings
+import os
 from path import GLOBAL_PROJECT_PATH
-import warnings
-import os
 
 
 @dataclass
@@ -21,13 +19,20 @@ class Country:
     factors: dict
 
 
-def _extract_wanted_column(file_name: str, dependant_column: str, independent_column='Country Code',
+def _extract_wanted_column(file_name: str, dependent_column: str, independent_column='Country Code',
                            back_up_independent_column='Country Name') -> Dict[str, str]:
-    """Return two lists which contain the essential columns from the input csv files for further processing.
+    """Return two lists which contain the essential columns from the input csv files
+    for further processing.
 
     Precondition:
         - filepath refers to a csv file with 2 or more columns
         - first and second column strings are present in the csv header
+
+    >>> _extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
+    ...                                     'Computation/Raw Datasets/Responsibility '
+    ...                                     'Datasets/'
+    ...                                     'GDP.csv'), '2014')['IND']
+    '2039127446298.55'
     """
     mapping_of_relevant_columns = {}
 
@@ -40,7 +45,7 @@ def _extract_wanted_column(file_name: str, dependant_column: str, independent_co
         for i in range(length):
             if header[i] == independent_column:
                 req_i = i
-            elif header[i] == dependant_column:
+            elif header[i] == dependent_column:
                 req_j = i
             elif header[i] == back_up_independent_column:
                 back_up_req_i = i
@@ -66,9 +71,9 @@ def _extract_wanted_column(file_name: str, dependant_column: str, independent_co
 
 
 COUNTRY_CODE_TABLE = _extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
-                                                          'Computation/Raw Datasets/Constant '
-                                                          'Datasets/'
-                                                          'countries_codes_and_coordinates.csv'),
+                                                         'Computation/Raw Datasets/Constant '
+                                                         'Datasets/'
+                                                         'countries_codes_and_coordinates.csv'),
                                             'Alpha-3 code', independent_column='Country',
                                             back_up_independent_column='')
 
@@ -78,6 +83,9 @@ def _name_to_iso(name_target: str) -> str:
 
     Precondition:
         - Name entered is valid
+
+    >>> _name_to_iso('Canada')
+    'CAN'
     """
     if name_target in COUNTRY_CODE_TABLE:
         return COUNTRY_CODE_TABLE[name_target]
@@ -93,6 +101,9 @@ def get_raw_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
         - All files are csv files with .csv extension
         - All csv files have a column of either 'Country Name' or 'Country Code'
         as well as a column of the input year
+
+    >>> get_raw_datasets('2014')['Renewable Energy']['USA']
+    '8.75430895443964'
     """
     target_path = os.path.join(GLOBAL_PROJECT_PATH,
                                'Computation/Raw Datasets/Responsibility Datasets/')
@@ -100,7 +111,8 @@ def get_raw_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
     data_dict = {}
 
     for name in files:
-        data_dict[name[:-4]] = _extract_wanted_column(os.path.join(target_path, name), year, 'Country Code',
+        data_dict[name[:-4]] = _extract_wanted_column(os.path.join(target_path, name),
+                                                      year, 'Country Code',
                                                       'Country Name')
 
     return data_dict
@@ -113,14 +125,19 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
     Precondition:
         - All csv files have a column of either 'Country Name' or 'Country Code'
         as well as a column of the input year
+
+    >>> China = map_iso_to_country('2014')['CHN']
+    >>> China.name
+    'China'
+    >>> China.gdp
+    10475682846632.2
+    >>> China.factors['Carbon Dioxide Emissions']
+    10291926.878
     """
 
     code_to_country = {}
     responsibility_datasets = get_raw_datasets(year)
 
-    country_gdp_table = _extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
-                                                            'Computation/Raw Datasets/Constant Datasets/GDP.csv'),
-                                               year)
     country_gdp_table = _extract_wanted_column(os.path.join(
         GLOBAL_PROJECT_PATH, 'Computation/Raw Datasets/Constant Datasets/GDP.csv'), year)
 
@@ -151,7 +168,11 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
 
 
 def get_clean_datasets(year: str) -> Dict[str, Dict[str, str]]:
-    """Provide a final revised dataset for performing computations"""
+    """Provide a final revised dataset for performing computations
+
+    >>> get_clean_datasets('2014')['Climate Risk Index']['AUS']
+    52.17
+    """
     raw_data_map = get_raw_datasets(year)
     clean_data_map = {}
     mapped_iso_to_country = map_iso_to_country(year)
@@ -173,6 +194,9 @@ def possible_years() -> List[str]:
     Precondition:
         - All data worth considering is from 1950 and onwards
         - At least one year is common to analyze in all datasets
+
+    >>> possible_years()
+    ['2014']
     """
     today = datetime.today()
     current_year = today.year
@@ -184,15 +208,14 @@ def possible_years() -> List[str]:
         try:
             raw_datasets = get_clean_datasets(year_str)
         except IndexError:
-            year += 1
             continue
 
         is_invalid = False
         if raw_datasets is not None:
             for factor in raw_datasets:
-                is_invalid = all(raw_datasets[factor][code] == -999 for code in raw_datasets[factor])
-                if is_invalid:
-                    break
+                is_invalid = all(raw_datasets[factor][code] == -999
+                                 for code in raw_datasets[factor])
+
             if not is_invalid:
                 possible_year_list.append(year_str)
 

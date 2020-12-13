@@ -1,3 +1,9 @@
+"""
+Provides a universal path in order to avoid using
+relative path. This prevents errors when bridging
+the user interaction scripts with the computation scripts.
+"""
+
 import os
 
 
