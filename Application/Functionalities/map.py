@@ -47,14 +47,18 @@ def run(total_budget: float, factor_proportionality: Dict[str, str], weights: Di
     keys.append('Budget Percentage')
     df = pandas.DataFrame(data=d)
 
-    title_text = 'Climate Risk Index: score out of 100, GDP: US$,' \
-                 ' Carbon Dioxide Emissions: metric kilotons, Renewable Energy: %, Budget: US$'
+    units = {'Climate Risk Index': 'Climate Risk Index (score out of 100)',
+             'GDP': 'GDP (US$)',
+             'CO2 Emissions': 'Carbon Dioxide Emissions (metric kilotons)',
+             'Renewable Energy': 'Renewable Energy (%)',
+             'Budget': 'Budget (US$)',
+             'Budget Percentage': 'Budget Percentage (%)'}
     fig = px.choropleth(df, locations="Iso Code",
                         color="Budget",
                         hover_name="Country Name",
                         hover_data=keys,
                         color_continuous_scale=px.colors.sequential.Plasma,
-                        title=title_text)
+                        labels=units)
 
     fig.show()
 
