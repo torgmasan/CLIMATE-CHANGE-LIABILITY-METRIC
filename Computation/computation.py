@@ -63,7 +63,7 @@ def _unavailable_value(country: Country, weights: Dict[str, float]) -> float:
     return split
 
 
-def responsibility(weights: Dict[str, float],
+def _responsibility(weights: Dict[str, float],
                    country: Country, factor_proportionality: Dict[str, str]) -> float:
     """Calculates the responsibility of the given country.
 
@@ -100,6 +100,6 @@ def budget_details(total_budget: float, country: Country,
         - factor_proportionality.keys() == weights.keys()
         - total_budget >= 1,000,000
     """
-    budget = responsibility(weights, country, factor_proportionality) * total_budget
+    budget = _responsibility(weights, country, factor_proportionality) * total_budget
     percentage = budget / country.gdp * 100
     return budget, percentage

@@ -15,7 +15,7 @@ app = QApplication(sys.argv)
 
 class WarnDialog(QDialog, Ui_Dialog):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
 
