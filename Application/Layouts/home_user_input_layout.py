@@ -82,7 +82,7 @@ class Ui_HomeMainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "Climate Change Liability Metric"))
+        self.label.setText(_translate("MainWindow", "Country-wise Financial Responsibility for Climate Change"))
         self.label_8.setText(_translate("MainWindow", "Enter Year to Analyze: "))
         self.label_7.setText(_translate("MainWindow", "Enter if Positive/Negative Correlation"))
         self.begin_analysis.setText(_translate("MainWindow", "Begin Analysis"))

@@ -87,5 +87,5 @@ class Ui_WeightageMainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Enter Factor Weightage"))
-        self.label_2.setText(_translate("MainWindow", "Enter Budget:"))
+        self.label_2.setText(_translate("MainWindow", "Enter Budget: (Minimum 1 million)"))
         self.display_analysis.setText(_translate("MainWindow", "Display Analysis"))
