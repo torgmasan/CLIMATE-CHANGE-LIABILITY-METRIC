@@ -33,6 +33,7 @@ def run(total_budget: float, factor_proportionality: Dict[str, str], weights: Di
         d[factor] = [map_data[code].factors[factor] for code in map_data]
 
     keys.append('Budget Percentage')
+    print(sum(output[code][0] for code in output))
 
     df = pandas.DataFrame(data=d)
     fig = px.choropleth(df, locations="Iso Code",

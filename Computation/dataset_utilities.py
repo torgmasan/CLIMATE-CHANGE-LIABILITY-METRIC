@@ -121,8 +121,7 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
                 corresponding_data = responsibility_datasets[dataset]
                 country_data_map[dataset] = float(corresponding_data[country_iso])
 
-            no_information = all(country_data_map[dataset] == -999 for dataset in country_data_map) \
-                            or country_gdp_table[country_iso] == -999
+            no_information = any(country_data_map[dataset] == -999 for dataset in country_data_map)
 
             if not no_information:
                 code_to_country[country_iso] = Country(country, float(country_gdp_table[country_iso]), country_data_map)
