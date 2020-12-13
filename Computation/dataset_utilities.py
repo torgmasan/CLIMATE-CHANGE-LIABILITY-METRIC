@@ -9,6 +9,8 @@ from datetime import datetime
 import os
 import warnings
 from path import GLOBAL_PROJECT_PATH
+import warnings
+import os
 
 
 @dataclass
@@ -19,10 +21,9 @@ class Country:
     factors: dict
 
 
-def extract_wanted_column(file_name: str, dependant_column: str, independent_column='Country Code',
-                          back_up_independent_column='Country Name') -> Dict[str, str]:
-    """Return two lists which contain the essential columns from the
-    input csv files for further processing.
+def _extract_wanted_column(file_name: str, dependant_column: str, independent_column='Country Code',
+                           back_up_independent_column='Country Name') -> Dict[str, str]:
+    """Return two lists which contain the essential columns from the input csv files for further processing.
 
     Precondition:
         - filepath refers to a csv file with 2 or more columns
@@ -52,7 +53,7 @@ def extract_wanted_column(file_name: str, dependant_column: str, independent_col
                     mapping_of_relevant_columns[row[req_i]] = -999
 
             else:
-                row[back_up_req_i] = name_to_iso(row[back_up_req_i])
+                row[back_up_req_i] = _name_to_iso(row[back_up_req_i])
                 if row[req_j] != '':
                     mapping_of_relevant_columns[row[back_up_req_i]] = row[req_j]
                 else:
@@ -64,15 +65,15 @@ def extract_wanted_column(file_name: str, dependant_column: str, independent_col
     return mapping_of_relevant_columns
 
 
-COUNTRY_CODE_TABLE = extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
-                                                        'Computation/Raw Datasets/Constant '
-                                                        'Datasets/'
-                                                        'countries_codes_and_coordinates.csv'),
-                                           'Alpha-3 code', independent_column='Country',
-                                           back_up_independent_column='')
+COUNTRY_CODE_TABLE = _extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
+                                                          'Computation/Raw Datasets/Constant '
+                                                          'Datasets/'
+                                                          'countries_codes_and_coordinates.csv'),
+                                            'Alpha-3 code', independent_column='Country',
+                                            back_up_independent_column='')
 
 
-def name_to_iso(name_target: str) -> str:
+def _name_to_iso(name_target: str) -> str:
     """Converts the input country name to give to corresponding iso
 
     Precondition:
@@ -99,8 +100,8 @@ def get_raw_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
     data_dict = {}
 
     for name in files:
-        data_dict[name[:-4]] = extract_wanted_column(os.path.join(target_path, name), year, 'Country Code',
-                                                        'Country Name')
+        data_dict[name[:-4]] = _extract_wanted_column(os.path.join(target_path, name), year, 'Country Code',
+                                                      'Country Name')
 
     return data_dict
 
@@ -117,7 +118,10 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
     code_to_country = {}
     responsibility_datasets = get_raw_datasets(year)
 
-    country_gdp_table = extract_wanted_column(os.path.join(
+    country_gdp_table = _extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
+                                                            'Computation/Raw Datasets/Constant Datasets/GDP.csv'),
+                                               year)
+    country_gdp_table = _extract_wanted_column(os.path.join(
         GLOBAL_PROJECT_PATH, 'Computation/Raw Datasets/Constant Datasets/GDP.csv'), year)
 
     for country in COUNTRY_CODE_TABLE:
