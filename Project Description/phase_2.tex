@@ -64,6 +64,32 @@ A major feature of the application is providing the user with the freedom to man
 
 
 \section*{Computational Plan}
+As the application is executed, the map_win_open method in Application.Functionalities.user_input calls the run
+method in Map.py which is a public method that displays a choropleth map giving information about the
+budget, budget percentage, name of the country, its iso-code and each country’s data for every
+factor. This data can be viewed by hovering over the country on the map; this feature is executed
+using the package pandas’ DataFame method and plotly.express. The budget and budget percentage for each
+country are obtained by calling the private_plot method that takes in the required information and
+calls the budget_details method in computation.py to return a dictionary mapping each country code to a
+corresponding tuple of the budget and budget percentage.\newline
+
+budget_details is a public method that calculates the appropriate amount in US dollars to be allocated to
+each country and returns a tuple containing both budget and budget percentage for that specific country
+based on the formula provided above. It does this by calling the private method _responsibility. It carries out
+the major chunk of the calculation by first checking whether there is any unavailable data for a country in a
+specific factor (this is only if the country has data for at least one of the factors). If this is the
+case, _unavailable_values method is called which calculates the number of factors where the data is missing
+for the given country and distributes the weightage of the missing factor to the ones that have data so
+that the weights for all factors always add up to $100$. This is done by calculating the number of factors
+where the data is unavailable, dividing them by the number of remaining available data and eventually
+adding them onto each weight in the method _responsibility. \newline
+
+_responsibility also calls private methods _negative_calculation and _positive_calculation for each factor based on
+their relation of ‘direct’ or ‘inverse’ as input by the user. They compute based on the formulas provided above
+and call method _calculate_total to calculate the sum of each country’s data for that factor.\newline
+
+Using these functions, we were able to come up with an implementation for our plan and display the
+choropleth map along with the information of each country when the user hovers over that region.\newline
 
 
 
