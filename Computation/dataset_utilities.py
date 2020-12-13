@@ -89,12 +89,9 @@ def get_raw_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
     files = os.listdir(target_path)
     data_dict = {}
 
-    try:
-        for name in files:
-            data_dict[name[:-4]] = extract_wanted_column(os.path.join(target_path, name), year, 'Country Code',
-                                                         'Country Name')
-    except IndexError:
-        return None
+    for name in files:
+        data_dict[name[:-4]] = extract_wanted_column(os.path.join(target_path, name), year, 'Country Code',
+                                                        'Country Name')
 
     return data_dict
 
@@ -167,8 +164,21 @@ def possible_years() -> List[str]:
     possible_year_list = []
 
     for year in range(1950, current_year + 1):
+
         year_str = str(year)
-        if get_raw_datasets(year_str) is not None:
-            possible_year_list.append(year_str)
+        try:
+            raw_datasets = get_clean_datasets(year_str)
+        except IndexError:
+            year += 1
+            continue
+
+        is_invalid = False
+        if raw_datasets is not None:
+            for factor in raw_datasets:
+                is_invalid = all(raw_datasets[factor][code] == -999 for code in raw_datasets[factor])
+                if is_invalid:
+                    break
+            if not is_invalid:
+                possible_year_list.append(year_str)
 
     return possible_year_list
