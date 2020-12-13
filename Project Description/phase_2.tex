@@ -1,0 +1,79 @@
+\documentclass[fontsize=11pt]{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+
+\title{CSC110 Project Proposal: CLIMATE CHANGE LIABILITY METRIC}
+\author{Ansh Jain, Nikhil Sreekumar, Sidharth Sachdev}
+\date{Monday, December 14, 2020}
+
+\begin{document}
+\maketitle
+
+\section*{Problem Description and Research Question}
+
+Change has been exponentially quick in the last century, and it certainly has not been kind to the climate of our world. Instead of guiding us away from the brink of destruction, many of our leaders have steered us right to the tipping point. Our problem is that some very privileged people are allowed to make decisions that adversely affect the entire planet. We have decided to research how various factors contribute to the individual impact of a nation on the worsening climate of the earth. We want to quantitatively find out how much each country is responsible for climate change.\newline
+
+Hence our research question is,
+
+\textbf{What is each country’s responsibility, in monetary value, towards confronting the looming climate emergency based on certain factors, ranging from the country’s effect on the earth’s climate to its fiscal ability?}\newline
+
+The world runs on money, and any form of commitment on a global front must start off with a budget. This resulted in us choosing a monetary approach to answer the research question. However, the aim of the project is not realized through calculating this aforementioned budget, a role imposed upon the user, but is done so by producing a fair distribution of this budget amongst the nations of the world.\newline
+
+We intend to go about doing so by creating a desktop application that allows the user to gain this information in whichever way is more preferable: comparing nations in a choropleth map or analyzing each country separately. It is also imperative that the application has a clean and understandable User Interface so that the user is aware of the expected input as well as the features that come with it.\newline
+
+
+A major feature of the application is providing the user with the freedom to manipulate the datasets, weightage, and factors while using a set of standard underlying equations. There is a default directory with datasets that the users can use, but they are encouraged to delete or replace them with datasets of their own before running the program. The weight of each factor, the budget, and the year of analysis can be directly altered while running the application.  Together, this customizability allows for an interactive application that can produce several hypothetical budget distributions in a systematic, unbiased manner
+
+
+\section*{Dataset Description}
+
+    There are two directories in which datasets are stored. 'Responsibility Datasets' is where the user enters datasets as per what best fits their idea of assigning responsibility to each nation state. 'Constant Datasets' cannot be altered by the user since they are standard values in the computational formula.
+
+
+     \begin{center}
+        CONSTANT DATASETS
+    \end{center}
+
+    \begin{enumerate}
+
+
+        \item [1.] GDP is a dataset of the CSV format which provides basic information about each country such as GDP in from 1960 to 2017. The data has been compiled by the US government.
+
+        \item [2.]  countries\_codes\_and\_coordinates contain information regarding location and ISO 2 and 3 codes.  The country name and ISO code are used.  Dataset obtained from a Github repository under username Tadast.
+
+    \end{enumerate} \newpage
+
+    \begin{center}
+        RESPONSIBILITY DATASETS (DEFAULT)
+    \end{center}
+
+    \begin{enumerate}
+        \item [1.] CO2 emission is a dataset of the CSV format which provides information on the emissions of Carbon Dioxide in metric tons based on each country from 1990 to 2016. This dataset has been sourced from data.world and was created by Oak Ridge National Laboratory.
+
+        \item [2.] Percentage use of renewable energy is a dataset of the CSV format which provides information on the percentage of renewable energy used out of the total energy consumption per country from 1960 to 2015. The dataset has been sourced from the World Bank.
+
+        \item [3.] CRI is a dataset of the CSV format which provides information on categories such as score, fatalities, losses in millions of dollars based on the effects of climate in each country in 2014. The source of the data set is GERMANWATCH.
+
+        \item [4.] The same GDP dataset from Constant Datasets can also serve as a factor. Thus, it is also a part of the Responsibility Datasets
+
+    \end{enumerate}
+
+
+    Note: Each Dataset provided has data for a range of years. However, the data for CRI is from the year 2014 exclusively. Hence, the only common year available to the user for analysis is 2014. The user can change this by editing the directory containing datasets as required. The user’s preference and available data may differ and they have the freedom to input datasets in their best interest. This is elaborated further in the Computational Plan.
+
+
+\section*{Computational Plan}
+
+
+
+\section*{References}
+
+TODO
+
+% NOTE: LaTeX does have a built-in way of generating references automatically,
+% but it's a bit tricky to use so we STRONGLY recommend writing your references
+% manually, using a standard academic format like APA or MLA.
+% (E.g., https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_formatting_and_style_guide/general_format.html)
+
+\end{document}

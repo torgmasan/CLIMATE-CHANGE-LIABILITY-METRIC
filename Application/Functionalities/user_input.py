@@ -60,7 +60,13 @@ class HomeWindow(CCLMApplicationWindow, Ui_HomeMainWindow):
             self.correlation_grid.addWidget(label, i, 0)
             self.dataset_to_combo_box[correlation_keys[i]] = QComboBox()
             current_combo = self.dataset_to_combo_box[correlation_keys[i]]
-            current_combo.addItems(combo_box_items)
+            if correlation_keys[i] == 'Renewable Energy':
+                # Since it is known that the default dataset Renewable Energy
+                # is inversely correlated, the combo items have been switched.
+                # Nevertheless, user still has authority to switch to direct
+                current_combo.addItems(['inverse', 'direct'])
+            else:
+                current_combo.addItems(combo_box_items)
             self.correlation_grid.addWidget(current_combo, i, 1)
 
     def weight_win_open(self) -> None:
