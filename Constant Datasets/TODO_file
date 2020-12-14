@@ -1,0 +1,6 @@
+Place the following csv files in the Constant Datasets directory and delete the TODO file:
+
+    - GDP.csv
+    - countries_codes_and_coordinates.csv
+
+Do not make any further changes.
