@@ -6,8 +6,8 @@ Color coded based on budget but it also displays the budget percentage.
 from typing import Dict, Tuple
 import plotly.express as px
 import pandas
-from Computation.dataset_utilities import map_iso_to_country
-from Computation.computation import budget_details, set_up_computation
+from dataset_utilities import map_iso_to_country
+from computation import budget_details, set_up_computation
 
 
 def _plot(total_budget: float, factor_proportionality: Dict[str, str], weights: Dict[str, float],

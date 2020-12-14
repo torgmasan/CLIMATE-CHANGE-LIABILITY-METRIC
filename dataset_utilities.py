@@ -8,7 +8,6 @@ from dataclasses import dataclass
 from datetime import datetime
 import warnings
 import os
-from path import GLOBAL_PROJECT_PATH
 
 
 @dataclass
@@ -28,8 +27,8 @@ def _extract_wanted_column(file_name: str, dependent_column: str, independent_co
         - filepath refers to a csv file with 2 or more columns
         - first and second column strings are present in the csv header
 
-    >>> _extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
-    ...                                     'Computation/Raw Datasets/Responsibility '
+    >>> _extract_wanted_column(os.path.join(
+    ...                                     'Responsibility '
     ...                                     'Datasets/'
     ...                                     'GDP.csv'), '2014')['CAN']
     '1803533209844.65'
@@ -70,8 +69,7 @@ def _extract_wanted_column(file_name: str, dependent_column: str, independent_co
     return mapping_of_relevant_columns
 
 
-COUNTRY_CODE_TABLE = _extract_wanted_column(os.path.join(GLOBAL_PROJECT_PATH,
-                                                         'Computation/Raw Datasets/Constant '
+COUNTRY_CODE_TABLE = _extract_wanted_column(os.path.join('Constant '
                                                          'Datasets/'
                                                          'countries_codes_and_coordinates.csv'),
                                             'Alpha-3 code', independent_column='Country',
@@ -105,8 +103,7 @@ def get_raw_datasets(year: str) -> Optional[Dict[str, Dict[str, str]]]:
     >>> get_raw_datasets('2014')['Renewable Energy']['CAN']
     '22.024651539556'
     """
-    target_path = os.path.join(GLOBAL_PROJECT_PATH,
-                               'Computation/Raw Datasets/Responsibility Datasets/')
+    target_path = os.path.join('Responsibility Datasets/')
     files = os.listdir(target_path)
     data_dict = {}
 
@@ -138,8 +135,7 @@ def map_iso_to_country(year: str) -> Dict[str, Country]:
     code_to_country = {}
     responsibility_datasets = get_raw_datasets(year)
 
-    country_gdp_table = _extract_wanted_column(os.path.join(
-        GLOBAL_PROJECT_PATH, 'Computation/Raw Datasets/Constant Datasets/GDP.csv'), year)
+    country_gdp_table = _extract_wanted_column('Constant Datasets/GDP.csv', year)
 
     for country in COUNTRY_CODE_TABLE:
         country_data_map = {}

@@ -2,7 +2,7 @@
 Script to be executed
 """
 
-from Application.Functionalities.user_input import run_app
+from user_input import run_app
 
 
 def main() -> None:
