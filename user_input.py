@@ -28,7 +28,17 @@ class WarnDialog(QDialog, Ui_Dialog):
 
 
 class HomeWindow(CCLMApplicationWindow, Ui_HomeMainWindow):
-    """Home Screen for CCLM, taking in correlation input from user"""
+    """Home Screen for CCLM, taking in correlation input from user
+
+        Instance Attributes:
+            - dataset_to_combo_box: dictionary mapping factors to the
+            combo_box that determines it's correlation.
+            - dataset_to_correlation: dictionary mapping factor to correlation
+
+        Representation Invariants:
+            - self.dataset_to_combo_box != {}
+            - self.dataset_to_correlation != {}
+    """
     dataset_to_combo_box: Dict
     dataset_to_correlation: Dict
 
@@ -82,7 +92,19 @@ class HomeWindow(CCLMApplicationWindow, Ui_HomeMainWindow):
 
 
 class WeightageWindow(CCLMApplicationWindow, Ui_WeightageMainWindow):
-    """Second Screen for CCLM, taking in weightage for each dataset from user"""
+    """Second Screen for CCLM, taking in weightage for each dataset from user
+
+        Instance Attributes:
+            - dataset_to_line_edit: dictionary mapping factors to the
+            line_edit that determines it's weightage.
+            - dataset_to_correlation: dictionary mapping factor to correlation
+            - dataset_to_weightage: dictionary mapping factor to weightage
+
+        Representation Invariants:
+            - self.dataset_to_combo_box != {}
+            - self.dataset_to_correlation != {}
+            - self.dataset_to_weightage != {}
+    """
     dataset_to_correlation: Dict[str, str]
     year: str
     dataset_to_line_edit: Dict

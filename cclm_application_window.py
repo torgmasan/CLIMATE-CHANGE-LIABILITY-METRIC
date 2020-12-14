@@ -9,6 +9,10 @@ from PyQt5.QtWidgets import QMainWindow
 class CCLMApplicationWindow(QMainWindow):
     """An abstract class that provides the framework for each
     QWindow that is a part of the Climate Change Liability Metric project
+
+    Instance Attributes:
+        - next_win: The next QMainWindow to be opened
+
     """
     next_win: Optional[QMainWindow] = None
 
