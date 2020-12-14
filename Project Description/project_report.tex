@@ -10,7 +10,7 @@
 \begin{document}
     \maketitle
 
-    \section*{Problem Description and Research Question}
+    \section*{2. Problem Description and Research Question}
 
     Change has been exponentially quick in the last century, and it certainly has not been kind to the climate of our world. Instead of guiding us away from the brink of destruction, many of our leaders have steered us right to the tipping point. Our problem is that some very privileged people are allowed to make decisions that adversely affect the entire planet. We have decided to research how various factors contribute to the individual impact of a nation on the worsening climate of the earth. We want to quantitatively find out how much each country is responsible for climate change.\newline
 
@@ -26,7 +26,7 @@
     A major feature of the application is providing the user with the freedom to manipulate the datasets, weightage, and factors while using a set of standard underlying equations. There is a default directory with datasets that the users can use, but they are encouraged to delete or replace them with datasets of their own before running the program. The weight of each factor, the budget, and the year of analysis can be directly altered while running the application. Together, this customizability allows for an interactive application that can produce several hypothetical budget distributions in a systematic, unbiased manner
 
 
-    \section*{Dataset Description}
+    \section*{3. Dataset Description}
 
     There are two directories in which datasets are stored. 'Responsibility Datasets' is where the user enters datasets as per what best fits their idea of assigning responsibility to each nation state. 'Constant Datasets' cannot be altered by the user since they are standard values in the computational formula.
 
@@ -63,7 +63,7 @@
     Note: Each Dataset provided has data for a range of years. However, the data for CRI is from the year 2014 exclusively. Hence, the only common year available to the user for analysis is 2014. The user can change this by editing the directory containing datasets as required. The user’s preference and available data may differ and they have the freedom to input datasets in their best interest. This is elaborated further in the Computational Plan.
 
 
-    \section*{Computation}
+    \section*{4. Computation}
     
     \texttt{dataset\_utilities.py} is a script that is responsible for bridging the GUI aspect of the application with the computation. \texttt{\_extract\_wanted\_column} extracts the required columns from the datasets provided, and using \texttt{name\_to\_iso}, provides a raw amalgamation of input csv files into a mapping in \texttt{raw\_datasets}. These functions are the building blocks to the following public functions that are used by other scripts.
     
@@ -137,9 +137,40 @@
     Using these methods, we were able to come up with an implementation for our plan and display the
     choropleth map along with the information of each country when the user hovers over that region.\newline
 
+    \section*{5. Instructions}
+    Our project works in processed datasets, hence as per the instructions, the TA must download the processed versions
+    of the datasets which is a zip file named "Raw Datasets". This file should be extracted, there will be 2 folders present
+    inside the extracted filed named "Constant Datasets" and "Responsibility Datasets". Constant Datasets contain 2 CSV files
+    namely \texttt{countries_code_and_coordinates.csv} and \texttt{GDP.csv}. These files must be inserted in the Constant Datasets
+    directory directly on PyCharm. Similarly, Responsibility Datasets contain 4 CSV files namely \texttt{Carbon Dioxide Emissions.csv},
+    \texttt{Climate Risk Index.csv}, \texttt{GDP.csv}, and \texttt{Renewable Energy.csv}. These files must be inserted in the Responsibility Datasets
+    directory directly on PyCharm. These instructions are also available under each directory on PyCharm in a file named TODO which
+    must be deleted once the CSV files are inserted.\newline
 
+    \textbf{Figure 1. Place GUI  screen 1 here (pic 1)}\newline
+    \textbf{Figure 2. Include picture of only 2014 in dropdown}\newline
+    \textbf{Figure 3. Place Nikhil's cri missing ss with drop down menu here}\newline
+    When main.py is run, the window that pops up is the one seen in \texttt{Figure 1}. This is the window that pops if Climate Risk Index
+    is included as one of the factors with only 2014 available\texttt{(Figure 2)}. It can be seen in \texttt{Figure 3} that if the Climate Risk Index.csv was not included as one of the files
+    under the Responsibility Datasets directory, numerous country are available for analysis.\newline
+    The user can choose the country and choose whether he wants the factors to be directly correlated or inversely correlated
+    to climate change. For the factors provided by us, the suggested relation is already set (the first option in the drop down
+    menu).\newline
+    Note - Renewable Energy is recommended to have an inverse relation whereas the rest have a direct relation.\newline
+    \textbf{Figure 4. Include picture of screen 2}\newline
+    \textbf{Figure 5. Error message pic sent by Nikhil}\newline
+    The second window that pops up is the one seen in \texttt{Figure 4}. This screen allows the user to enter weights corresponding to
+    each factor as a percentage(out of 100). It also allows the user to input the total budget which must be above 1 million US
+    dollars. If an incorrect value is entered, a window displaying "error" pops like in \texttt{Figure 5}.\newline
+    \textbf{Figure 6. Data on screen 2,  25 weights and 1M budget}\newline
+    \textbf{Figure 7. Map no hover}\newline
+    \textbf{Figure 8. Nikhil's Map hover}\newline
+    We show a sample output in \texttt{Figure 6} with each factor having equal weightage of $25\%$ and the total budget
+    being $1,000,000$. The map seen in \texttt{Figure 7} is displayed. When a cursor is hovered over a country, the details about
+    the country like is iso-code, country name, budget, budget percentage, and the data of the factors corresponding to that
+    country. This example can be seen for Canada in \texttt{Figure 8}.\newline
 
-    \section*{Changes}
+    \section*{6. Changes}
 
     As per the TA's suggestions, the changes we made to our project were:
     \begin{enumerate}
@@ -161,7 +192,7 @@
     formulas for the computation and integrating both country-wise grid and the choropleth map(our goal as per the proposal)
     into a single choropleth map. The country-wise information can be viewed by hovering over a specific country. \newline
     
-    \section*{Discussion}
+    \section*{7. Discussion}
     \quad The research question led us through many formulae before we finally settled on the present mathematical model. 
     Our computational exploration helps us critically examine many aspects of the data such as determining whether a particular factor 
     has a direct or inverse relation with the required reparations, and how the choropleth map is affected by changing the weightage of each factor. 
@@ -211,7 +242,7 @@
     help provide impetus to reformative action.
     \newline
 
-    \section*{References}
+    \section*{8. References}
 
     \begin{enumerate}
     	\item[1.] “Qt Documentation.” Qt for Python - Qt for Python, doc.qt.io/qtforpython/.
