@@ -63,28 +63,38 @@
     Note: Each Dataset provided has data for a range of years. However, the data for CRI is from the year 2014 exclusively. Hence, the only common year available to the user for analysis is 2014. The user can change this by editing the directory containing datasets as required. The user’s preference and available data may differ and they have the freedom to input datasets in their best interest. This is elaborated further in the Computational Plan.
 
 
-    \section*{Computational Plan}
-    \textbf{NIKHIL edit this first paragraph(if required) followed by your on description of gathering data like \texttt{dataset\_utilities} etc.}
-    \newline
-    The application first takes in user input for a year to Analyze. The user is provided a drop-down of
-    possible years to choose from(only 2014 until the CRI dataset is removed from the Responsibility Datasets directory).
-    The computation to find the possible years requires checking if there
-    is a column for that year in each input dataset. From this preliminary list of candidate years,
-    those which contain no data for the valid countries in any input dataset are also of no use and
-    are removed from the drop-down.\newline
-
+    \section*{Computation}
+    
+    \texttt{dataset\_utilities.py} is a script that is responsible for bridging the GUI aspect of the application with the computation. \texttt{\_extract\_wanted\_column} extracts the required columns from the datasets provided, and using \texttt{name\_to\_iso}, provides a raw amalgamation of input csv files into a mapping in \texttt{raw\_datasets}. These functions are the building blocks to the following public functions that are used by other scripts.
+    
     \begin{enumerate}
-        \item [1.] Mention precondition of over 1 million
-        \item [2.] all constants must be greater than 0 and equal to 100
+    	\item [1.] \texttt{map\_iso\_to\_country} creates a key-value pair of ISO code to Country dataclass. It removes all insufficient data from which a weighted average cannot be calculated. It is used to find all the countries that are to be displayed in the map.
+    	
+    	\item[2.] \texttt{get\_clean\_datasets} converts \texttt{map\_iso\_to\_country} back into the form of \texttt{get\_raw\_datasets}. Is important for all country related computation in \texttt{computation.py}
+    	
+    	\item[3.] \texttt{possible\_years} Uses the information from \texttt{get\_clean\_datasets} to return which years useful data can be derived from.
     \end{enumerate}
 
-    As the application is executed, the \texttt{map\_win\_open} method in Application.Functionalities.user\_input calls the run
-    method in Map.py which is a public method that displays a choropleth map giving information about the
+	The main GUI script, \texttt{user\_input.py} contains two windows in the application are built in an Object Oriented implementation, both inheriting the framework provided by \texttt{cclm\_application\_window.py}\newline
+
+    The application first takes in user input for a year to Analyze. The user is provided a drop-down of
+    possible years to choose from.\newline If the following preconditions:
+
+    \begin{enumerate}
+        \item [1.] $budget \geq \$1,000,000$
+        \item [2.] Sum of all constants for weighted average $= 100$
+    \end{enumerate}
+
+	Are not satisfied, an error dialog is created.\newline
+
+    As the application is executed, the \texttt{map\_win\_open} method in \texttt{user\_input.py} calls the \texttt{run}
+    method in the script relating to map plotting, \texttt{map.py}. Method \texttt{run} is a public method that displays a choropleth map giving information about the
     budget, budget percentage, name of the country, its iso-code and each country’s data for every
-    factor. This data can be viewed by hovering over the country on the map; this feature is executed
-    using the package pandas’ DataFame method and plotly.express. The budget and budget percentage for each
-    country are obtained by calling the private \texttt{\_plot} method that takes in the required information and
-    calls the \texttt{budget\_details} method in computation.py to return a dictionary mapping each country code to a
+    factor. This data can be viewed by hovering over the country on the map
+    using the package pandas’ DataFame method to pass data into a choropleth object of \texttt{plotly.express} module that shows the map. The budget and budget percentage for each
+    country are obtained by calling the private \texttt{\_plot} method that takes in the required information and passes over the values for computation in \texttt{computation.py} \newline
+    
+    \texttt{\_plot} calls \texttt{budget\_details} method in \texttt{computation.py} to return a dictionary mapping each country code to a
     corresponding tuple of the budget and budget percentage.\newline
 
     \texttt{budget\_details} is a public method that calculates the appropriate amount in US dollars to be allocated to
@@ -107,17 +117,17 @@
         \item [-] if the word 'direct' is used, it means that the factor is positively correlated to climate change like
         GDP, Carbon Dioxide Emissions, and Climate Risk Index. It uses the formula,
         \[
-            \frac{Country's data}{Total Data}
+            \frac{Country's \, \, data}{Total Data}
         \]
 
         \item [-] if the word 'inverse' is used, it means that the factor is negatively correlated to climate change like
         Renewable Energy.
         \[
-            \frac{Total \, data - Country's \, data}{\displaystyle\sum_{i \in Country \, data} Total \, data - i }
+            \frac{Total \, data - Country's \, \, data}{\displaystyle\sum_{i \in Country \, data} Total \, data - i }
         \]
     \end{enumerate}
     The result from these calculations(point out of 1) are then multiplied with the corresponding weight of the factor.
-    This is done for each factor and their sum(out of 100) gives the responsibility of that country.
+    This is done for each factor and their sum(out of 100) gives the responsibility of that country. Assuming there are 4 factors (as is in the default):
     \[
         Responsibility = \alpha F1 + \beta F2 + \gamma F3 + \delta F4
     \]
