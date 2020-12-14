@@ -12,7 +12,18 @@ import os
 
 @dataclass
 class Country:
-    """Class for maintaining information about each country"""
+    """Class for maintaining information about each country
+
+    Instance Attributes:
+        - name: The name of the country.
+        - gdp: The country's gdp.
+        - factors: The different factors affecting climate
+                    based on Responsibility Datasets directory
+
+    Representation Invariants:
+        - self.name != ''
+        - self.gdp > 0.0
+    """
     name: str
     gdp: float
     factors: dict
