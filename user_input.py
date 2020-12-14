@@ -10,9 +10,9 @@ from typing import Dict
 from PyQt5.QtWidgets import QApplication, QLabel, QComboBox, QLineEdit, QDialog
 from PyQt5 import QtCore
 from cclm_application_window import CCLMApplicationWindow
-from qt_designer_automated_scripts.home_user_input_layout import Ui_HomeMainWindow
-from qt_designer_automated_scripts.precondition_failed_dialog import Ui_Dialog
-from qt_designer_automated_scripts.weightage_user_input_layout import Ui_WeightageMainWindow
+from home_user_input_layout import Ui_HomeMainWindow
+from precondition_failed_dialog import Ui_Dialog
+from weightage_user_input_layout import Ui_WeightageMainWindow
 from map import run
 from dataset_utilities import possible_years, get_raw_datasets
 
