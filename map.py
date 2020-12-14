@@ -47,8 +47,7 @@ def run(total_budget: float, factor_proportionality: Dict[str, str], weights: Di
     keys.append('Budget Percentage')
     df = pandas.DataFrame(data=d)
 
-    units = {'Climate Risk Index': 'Climate Risk Index (score out of 100)',
-             'GDP': 'GDP (US$)',
+    units = {'GDP': 'GDP (US$)',
              'Carbon Dioxide Emissions': 'Carbon Dioxide Emissions (metric kilotons)',
              'Renewable Energy': 'Renewable Energy (%)',
              'Budget': 'Budget (US$)',

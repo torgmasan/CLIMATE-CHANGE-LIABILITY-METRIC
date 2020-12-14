@@ -39,7 +39,7 @@ def _positive_calculation(factor: str, country: Country) -> float:
     """Calculates the weighted responsibility if the relation is positive.
 
 
-    >>> from Computation.dataset_utilities import map_iso_to_country
+    >>> from dataset_utilities import map_iso_to_country
     >>> Canada = map_iso_to_country('2014')['CAN']
     >>> set_up_computation('2014')
     >>> _positive_calculation('Carbon Dioxide Emissions', Canada)
@@ -56,7 +56,7 @@ def _positive_calculation(factor: str, country: Country) -> float:
 def _negative_calculation(factor: str, country: Country) -> float:
     """Calculates the weighted responsibility if the relation is negative.
 
-    >>> from Computation.dataset_utilities import map_iso_to_country
+    >>> from dataset_utilities import map_iso_to_country
     >>> Canada = map_iso_to_country('2014')['CAN']
     >>> set_up_computation('2014')
     >>> _negative_calculation('Renewable Energy', Canada)
@@ -79,7 +79,7 @@ def _responsibility(weights: Dict[str, float],
         - sum([weights[factor] for factor in country.factors]) == 100.0
         - factor_proportionality.keys() == country.factors.keys()
 
-    >>> from Computation.dataset_utilities import map_iso_to_country
+    >>> from dataset_utilities import map_iso_to_country
     >>> Canada = map_iso_to_country('2014')['CAN']
     >>> set_up_computation('2014')
     >>> w = {'GDP': 25, 'Renewable Energy': 25, 'Carbon Dioxide Emissions': 25, 'Climate Risk Index': 25}
@@ -117,7 +117,7 @@ def budget_details(total_budget: float, country: Country,
         - factor_proportionality.keys() == weights.keys()
         - total_budget >= 1,000,000
 
-    >>> from Computation.dataset_utilities import map_iso_to_country
+    >>> from dataset_utilities import map_iso_to_country
     >>> Canada = map_iso_to_country('2014')['CAN']
     >>> set_up_computation('2014')
     >>> w = {'GDP': 25, 'Renewable Energy': 25, 'Carbon Dioxide Emissions': 25, 'Climate Risk Index': 25}
