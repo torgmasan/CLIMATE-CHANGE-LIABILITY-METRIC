@@ -1,0 +1,7 @@
+Place the following csv files in the Responsibility Datasets directory:
+
+    - GDP.csv
+    - countries_codes_and_coordinates.csv
+
+Any of these datasets can be removed as the user desires.
+New datasets can also be added as long as they satisfy preconditions.
