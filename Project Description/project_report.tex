@@ -160,6 +160,57 @@
     Apart from these fixes, our project has continued with the same plan excluding a few minor changes like correcting the
     formulas for the computation and integrating both country-wise grid and the choropleth map(our goal as per the proposal)
     into a single choropleth map. The country-wise information can be viewed by hovering over a specific country. \newline
+    
+    \section*{Discussion}
+    \quad The research question led us through many formulae before we finally settled on the present mathematical model. 
+    Our computational exploration helps us critically examine many aspects of the data such as determining whether a particular factor 
+    has a direct or inverse relation with the required reparations, and how the choropleth map is affected by changing the weightage of each factor. 
+    Although the budget percentage of each country will remain relatively stable due to the exponential but consistent decline of our climate worldwide, 
+    we can also extrapolate trends over the years to predict the increase in the overall budget (since our fight against the deteriorating climate 
+    becomes more and more daunting).
+    \newline
+    
+    Let's take a look at the year 2014 when the carbon dioxide emissions, Climate Risk Index, and the gross domestic product all share 
+    a direct relation with the 'climate budget' but use of renewable energy of a country has an inverse relation. Say we decide to give 
+    equal weightage to each factor (25\% each) and set the budget limit as \$ 1,000,000. Now, when the application is run, the map that 
+    appears displays the country-wise distribution of the total budget. By following the legend on the right side of the screen, we can 
+    observe that China has the highest required climate budget (\$114,291.80) and many African nations (like Mozambique) have very low 
+    budgets. Hovering over both countries, we can find out the reason for this -- China had 10,291,926.878 metric kilotons of $CO_2$ emissons 
+    in 2014 while Mozambique had 8434.1 metric kilotons (around 1220 times less). Moreover, Mozambique has a renewable energy percentage 
+    of 88.8570478335913\% while China only has 12.2238230065824\% and the inverse relationship between the factor and the budget 
+    specifies that China should pay more to compensate for its greater impact on climate change.
+    \newline
+    
+    Additionally, since budget percentage is a ratio between the required budget and the GDP of the country, it is possible for one 
+    country to have a higher required budget than another country but a lower budget percentage due to large differences in their GDP's. 
+    We see this demonstrated best in the neighbors US and Canada, where US has a required climate budget of \$98,903.30 and Canada has a 
+    budget of \$13,187.58 but the US has a lower budget percentage ($5.644605277395316 \times 10^{-7}$) than Canada 
+    ($7.312079734975369 \times 10^{-7}$) due to its significantly higher GDP. All these numeric and visual trends are useful in depicting 
+    which country has a greater impact on the climate by calculating the required amount each country should set aside in its budget to 
+    tackle the climate emergency using the different factors. 
+    \newline
+    
+    We also ran into some unforeseen complications while working with the datasets. The data was often incomplete or missing in the 
+    four datasets (representing the four factors) – many countries had gaps in data over the years and a few countries were missing 
+    altogether from one or more of the chosen datasets. These cases had to be excluded from the computation. Furthermore, our model 
+    relies on the user’s credibility, which means that it will unfortunately fail if the data entered is logically incorrect. 
+    For example, a reverse relationship between a factor and the budget (direct instead of inverse or vice versa) would result in 
+    unbalanced reparations and some countries that should pay more might end up paying less. To deepen our bounds of exploration in the future, 
+    we would like to give the user more datasets (and therefore factors) to include in the budget computation of each country 
+    and also offer the user a clearer choice when selecting inputs. The user would be able to 'keep' or 'remove' the factors through a drop-down menu. 
+    The application's default datasets chosen by us (such as the four factors) would have fixed relations (direct or indirect) 
+    and the user would have to correctly specify the relation for any new datasets that they add. Another visual that we would include 
+    in the application is a graph that plots a chosen country’s data over the years and extrapolates the line graph to predict the budget in future years.
+    \newline
+    
+    Overall, Country-wise Financial Responsibility for Climate Change is a useful application for gauging the effects of carbon dioxide emissions, 
+    Climate Risk Index, and the use of renewable energy of a country on the earth's worsening climate. The application achieves success in its goal 
+    to obtain a realistic monetary metric by including the gross domestic product of each country as a factor; the interactive interface provides 
+    the user with insight into the international responsibility of each nation in combating the climate emergency. By having a visual representation 
+    of the choropleth map side by side with numeric data, the user can perceive trends compactly and distinctly. Thus, our research question 
+    is successful in propelling the climate change conversation towards a possible solution by assigning a fiscal benchmark and will hopefully 
+    help provide impetus to reformative action.
+    \newline
 
     \section*{References}
 
