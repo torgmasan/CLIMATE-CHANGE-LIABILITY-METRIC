@@ -1,9 +1,0 @@
-Place the following csv files in the Responsibility Datasets directory and delete the TODO file:
-
-    - Renewable Energy.csv
-    - GDP.csv
-    - Climate Risk Index.csv
-    - Carbon Dioxide Emssions.csv
-
-Any of these datasets can be removed as the user desires.
-New datasets can also be added as long as they satisfy preconditions.
