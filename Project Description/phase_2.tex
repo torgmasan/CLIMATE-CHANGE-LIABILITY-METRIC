@@ -139,8 +139,29 @@
 
 
 
+    \section*{Changes}
+
+    As per the TA's suggestions, the changes we made to our project were:
+    \begin{enumerate}
+        \item [1.] Changing the project title from "Climate Change Liability Metric" to "Country-wise Financial
+                    Responsibility for Climate Change".
+        \item [2.] Since our project uses an equation to calculate this Financial Responsibility, we changed our
+                    research question from whether a metric could be found to a more specific question of what the
+                    metric is and what does it signify.
+        \item [3.] Although we were suggested to use a specific region or continent to reduce the workload, we found
+                    that it was easier to use all the countries since the choropleth map object under \texttt{plotly.express}
+                    already contains a parameter \texttt{locations} to enter the corresponding iso-code for each country,
+                    making it easier to be displayed on the map.
+        \item [4.] In the dataset description of the proposal, we took different years for each of our datasets which seemed logically flawed.
+                    Hence we changed our implementation of the project to include a wider range of years common to each
+                    factor. Although Climate Risk Index has data only for 2014, if chosen to remove, a wider range of
+                    years will be available for analysis as explained in the computation section.
+    \end{enumerate}
+    Apart from these fixes, our project has continued with the same plan excluding a few minor changes like correcting the
+    formulas for the computation and integrating both country-wise grid and the choropleth map(our goal as per the proposal)
+    into a single choropleth map. The country-wise information can be viewed by hovering over a specific country. \newline
+
     \section*{References}
 
-    TODO
 
 \end{document}
