@@ -1,4 +1,4 @@
-Place the following csv files in the Responsibility Datasets directory:
+Place the following csv files in the Responsibility Datasets directory and delete the TODO file:
 
     - Renewable Energy.csv
     - GDP.csv
