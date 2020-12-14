@@ -2,6 +2,9 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage[margin=0.75in]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{Screenshots/}}
 
 \title{CSC110 Project Proposal: Country-wise Financial Responsibility for Climate Change}
 \author{Ansh Jain, Nikhil Sreekumar, Sidharth Sachdev}
@@ -136,10 +139,9 @@
     \newline
     Using these methods, we were able to come up with an implementation for our plan and display the
     choropleth map along with the information of each country when the user hovers over that region.\newline
-
-        All files in \texttt{qt\_designer\_automated\_scripts} are made using QtDesigner. Since they are automated,
-        there implementation details are not mentioned, and they are inserted in a separate directory.
-
+    All files in \texttt{qt\_designer\_automated\_scripts} are made using QtDesigner. Since they are automated,
+    there implementation details are not mentioned, and they are inserted in a separate directory.
+    
     \section*{5. Instructions}
     Our project works in processed datasets, hence as per the instructions, the TA must download the processed versions
     of the datasets which is a zip file named "Raw Datasets". This file should be extracted, there will be 2 folders present
@@ -150,10 +152,27 @@
     directory directly on PyCharm. Further instructions are also available under each directory on PyCharm in a file named \texttt{TODO\_file} which
     must be deleted once the CSV files are inserted.\newline
 
-    \textbf{Figure 1. Place GUI  screen 1 here (pic 1)}\newline
-    \textbf{Figure 2. Include picture of only 2014 in dropdown}\newline
-    \textbf{Figure 3. Place Nikhil's cri missing ss with drop down menu here}\newline
-    \textbf{Figure 4. Drop down inverse and direct menu}\newline
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=8cm]{Figure 1.jpeg}
+        \caption{GUI Screen 1}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=8cm]{Figure 2.jpeg}
+        \caption{Year Drop-down with CRI}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=8cm]{Figure 3.png}
+        \caption{Year Drop-down without CRI}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=8cm]{Figure 4.jpeg}
+        \caption{Direct or Inverse Relation Drop-down}
+    \end{figure}
+    
     When \texttt{main.py} is run, the window that pops up is the one seen in \texttt{Figure 1}. This is the window that pops if Climate Risk Index
     is included as one of the factors with only 2014 available\texttt{(Figure 2)}. It can be seen in \texttt{Figure 3} that if the Climate Risk Index.csv was not included as one of the files
     under the Responsibility Datasets directory, numerous years are available for analysis.\newline
@@ -161,18 +180,42 @@
     to climate change. For the factors provided by us, the suggested relation is already set (the first option in the drop down
     menu as seen in \texttt{Figure 1}). These options can be seen in \texttt{Figure 4}\newline
     Note - Renewable Energy is recommended to have an inverse relation whereas the rest have a direct relation.\newline
-    \textbf{Figure 5. Include picture of screen 2}\newline
-    \textbf{Figure 6. Error message pic sent by Nikhil}\newline
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=8cm]{Figure 5.jpeg}
+        \caption{GUI Screen 2}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=8cm]{Figure 6.png}
+        \caption{Error Message}
+    \end{figure}
+    
     The second window that pops up is the one seen in \texttt{Figure 4}. This screen allows the user to enter weights corresponding to
     each factor as a percentage(out of 100). It also allows the user to input the total budget which must be $\geq$ 1 million US
     dollars. If an incorrect value is entered, a window displaying "error" pops as in \texttt{Figure 5}.\newline
-    \textbf{Figure 7. Data on screen 2,  25 weights and 1M budget}\newline
-    \textbf{Figure 8. Map no hover}\newline
-    \textbf{Figure 9. Nikhil's Map hover}\newline
-    We show a sample output in \texttt{Figure 6} with each factor having equal weightage of $25\%$ and the total budget
-    being $1,000,000$. The map seen in \texttt{Figure 7} is displayed. When a cursor is hovered over a country, the details about
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=8cm]{Figure 7.jpeg}
+        \caption{Sample Data for GUI Screen 2}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=14cm]{Figure 8.jpeg}
+        \caption{Map (no hover)}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=14cm]{Figure 9.png}
+        \caption{Map (hover over Canada)}
+    \end{figure}
+    
+    We show a sample input in \texttt{Figure 7} with each factor having equal weightage of $25\%$ and the total budget
+    being $1,000,000$. The map seen in \texttt{Figure 8} is displayed. When a cursor is hovered over a country, the details about
     the country like is iso-code, country name, budget, budget percentage, and the data of the factors corresponding to that
-    country. This example can be seen for Canada in \texttt{Figure 8}.\newline
+    country. This example can be seen for Canada in \texttt{Figure 9}.\newline
 
     \section*{6. Changes}
 
@@ -245,6 +288,8 @@
     propels the climate change conversation towards a possible solution by assigning a fiscal benchmark and will hopefully 
     help provide impetus to reformative action.
     \newline
+
+    \newpage
 
     \section*{8. References}
 
